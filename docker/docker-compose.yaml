@@ -1,0 +1,15 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+    postgres_docker_container:
+        image: postgres:11.2
+        restart: always
+        environment:
+            - POSTGRES_DB=escalade
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=admin
+        ports:
+            - "127.0.0.1:5432:5432"
+
+    
