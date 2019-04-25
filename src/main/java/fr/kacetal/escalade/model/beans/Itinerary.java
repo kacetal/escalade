@@ -1,5 +1,7 @@
 package fr.kacetal.escalade.model.beans;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+@Data
 @Entity
 public class Itinerary {
     
