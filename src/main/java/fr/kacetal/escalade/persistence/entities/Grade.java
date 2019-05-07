@@ -1,4 +1,4 @@
-package fr.kacetal.escalade.model.beans;
+package fr.kacetal.escalade.persistence.entities;
 
 public enum Grade {
     _1("1"),
