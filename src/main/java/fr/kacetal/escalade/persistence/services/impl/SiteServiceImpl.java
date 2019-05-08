@@ -3,7 +3,6 @@ package fr.kacetal.escalade.persistence.services.impl;
 import fr.kacetal.escalade.persistence.entities.Site;
 import fr.kacetal.escalade.persistence.repository.SiteRepository;
 import fr.kacetal.escalade.persistence.services.SiteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,8 +11,11 @@ import java.util.List;
 @Service
 public class SiteServiceImpl implements SiteService {
     
+    private final SiteRepository siteRepository;
     
-    private SiteRepository siteRepository;
+    public SiteServiceImpl(SiteRepository siteRepository) {
+        this.siteRepository = siteRepository;
+    }
     
     @Override
     public List<Site> findAll() {
@@ -40,10 +42,5 @@ public class SiteServiceImpl implements SiteService {
     @Override
     public void delete(Long id) {
         siteRepository.deleteById(id);
-    }
-    
-    @Autowired
-    public void setSiteRepository(SiteRepository siteRepository) {
-        this.siteRepository = siteRepository;
     }
 }
