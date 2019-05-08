@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
+    <h1>Singer Details</h1>
+    <div>
+        <form class="form-horizontal" th:object="${site}" th:action="@{/sites}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                    <input class="form-control" th:field="*{name}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                    <input class="form-control" th:field="*{description}"/>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-default">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

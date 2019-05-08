@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
+    <div class="text-left" th:if="${not #lists.isEmpty(sites)}">
+        <h2 th:text="${'Sites: ' + sites.size()}">Sites: </h2>
+        <div class="card-group">
+            <div class="card" style="width: 18rem;" th:each="site : ${sites}">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${site.name}">Site name</h5>
+                    <p class="card-text" th:text="${site.description}">Description</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-outline-info" th:href="${'/sites/?id=' + site.id}">View</a>
+                    <a class="btn btn-outline-secondary" th:href="${'/sites/edit/' + site.id}">Edit</a>
+                    <a class="btn btn-outline-danger" th:href="${'/sites/delete/' + site.id}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
