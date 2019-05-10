@@ -7,7 +7,7 @@ import java.util.List;
 public interface SiteService {
     List<Site> findAll();
     
-    List<Site> findSitesByName(String name);
+    List<Site> findByName(String name);
     
     Site findById(Long id);
     
