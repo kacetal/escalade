@@ -20,7 +20,10 @@ import java.util.Objects;
 @RequestMapping(path = "/sites")
 public class SiteController {
     
-    private final SiteService siteService;
+    private SiteService siteService;
+    
+    public SiteController() {
+    }
     
     public SiteController(SiteService siteService) {
         this.siteService = siteService;
