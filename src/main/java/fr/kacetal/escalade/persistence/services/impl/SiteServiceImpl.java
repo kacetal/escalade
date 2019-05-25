@@ -25,7 +25,7 @@ public class SiteServiceImpl implements SiteService {
     }
     
     @Override
-    public List<Site> findSitesByName(String name) {
+    public List<Site> findByName(String name) {
         return new ArrayList<>(siteRepository.findSitesByNameContainsIgnoreCase(name));
     }
     
