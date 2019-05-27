@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
+    <h2>Site details</h2>
+    <div class="lead">
+        <div class="table-responsive-md">
+            <table class="table table-striped">
+                <thead class="thead">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>Region</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${site.id}">ID</td>
+                    <td th:text="${site.name}">Name</td>
+                    <td th:text="${site.country}">Country</td>
+                    <td th:text="${site.region}">Region</td>
+                    <td th:text="${site.description}">Description</td>
+                    <td><a class="btn btn-outline-secondary" th:href="${'/sites/edit/' + site.id}">Edit</a></td>
+                    <td><a class="btn btn-outline-danger" th:href="${'/sites/delete/' + site.id}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive-md">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Site name</th>
+                    <th>Sector name</th>
+                    <th>Sector description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="sector : ${sectors}">
+                    <td th:text="${sector.site.name}">Site name</td>
+                    <td th:text="${sector.name}">Sector name</td>
+                    <td th:text="${sector.description}">Sector description</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

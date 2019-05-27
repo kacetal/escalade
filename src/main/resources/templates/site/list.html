@@ -14,7 +14,7 @@
                     <p class="card-text" th:text="${site.description}">Description</p>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-outline-info" th:href="${'/sites/?id=' + site.id}">View</a>
+                    <a class="btn btn-outline-info" th:href="${'/sites/view/' + site.id}">View</a>
                     <a class="btn btn-outline-secondary" th:href="${'/sites/edit/' + site.id}">Edit</a>
                     <a class="btn btn-outline-danger" th:href="${'/sites/delete/' + site.id}">Delete</a>
                 </div>
