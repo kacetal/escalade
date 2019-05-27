@@ -4,9 +4,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@Entity
+@Entity(name = "Site")
 public class Site {
     
     @Id
@@ -26,4 +28,7 @@ public class Site {
     @Size(max = 1000)
     @Column(length = 1000)
     private String description;
+    
+    @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Sector> sectors;
 }
