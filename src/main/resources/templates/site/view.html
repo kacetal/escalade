@@ -24,7 +24,7 @@
                     <td th:text="${site.country}">Country</td>
                     <td th:text="${site.region}">Region</td>
                     <td th:text="${site.description}">Description</td>
-                    <td><a class="btn btn-outline-secondary" th:href="${'/sites/edit/' + site.id}">Edit</a></td>
+                    <td><a class="btn btn-outline-secondary" th:href="${'/sites/update/' + site.id}">Edit</a></td>
                     <td><a class="btn btn-outline-danger" th:href="${'/sites/delete/' + site.id}">Delete</a></td>
                 </tr>
                 </tbody>
@@ -34,16 +34,17 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                 <tr>
-                    <th>Site name</th>
                     <th>Sector name</th>
                     <th>Sector description</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="sector : ${sectors}">
-                    <td th:text="${sector.site.name}">Site name</td>
                     <td th:text="${sector.name}">Sector name</td>
                     <td th:text="${sector.description}">Sector description</td>
+                    <td><a class="btn btn-outline-info" th:href="${'/sectors/view/' + site.id}">View</a></td>
+                    <td><a class="btn btn-outline-secondary" th:href="${'/sectors/update/' + site.id}">Edit</a></td>
+                    <td><a class="btn btn-outline-danger" th:href="${'/sectors/delete/' + site.id}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
