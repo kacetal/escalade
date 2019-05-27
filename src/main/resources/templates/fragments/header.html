@@ -37,6 +37,16 @@
                         Add Site
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/sectors}">
+                        Sectors
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/sectors/new}">
+                        Add Sector
+                    </a>
+                </li>
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">
                     <a class="nav-link" href="/login" th:href="@{/login}">
                         <i class="fas fa-sign-in-alt"></i>
