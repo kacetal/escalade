@@ -30,7 +30,13 @@ public class Itinerary {
     private String name;
     
     @Column(nullable = false)
-    private Integer length;
+    private String spit;
+    
+    @Column(nullable = false)
+    private Integer numberOfParts;
+    
+    @Column(nullable = false)
+    private Integer height;
     
     @Column(length = 1000)
     private String description;
