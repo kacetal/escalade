@@ -59,7 +59,7 @@ public class Sector {
                 .add("name='" + name + "'")
                 .add("description='" + description + "'")
                 .add("siteName='" + site.getName() + "'")
-                .add("NmbrOfItineraries=" + itineraries.size())
+                .add("NmbrOfItineraries=" + (itineraries == null ? 0 : itineraries.size()))
                 .toString();
     }
 }

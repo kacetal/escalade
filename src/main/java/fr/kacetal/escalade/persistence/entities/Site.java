@@ -65,7 +65,7 @@ public class Site {
                 .add("country='" + country + "'")
                 .add("region='" + region + "'")
                 .add("description='" + description + "'")
-                .add("NmbrOfSectors=" + sectors.size())
+                .add("NmbrOfSectors=" + (sectors == null ? 0 : sectors.size()))
                 .toString();
     }
 }
