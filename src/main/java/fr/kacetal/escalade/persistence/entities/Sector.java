@@ -12,12 +12,11 @@ public class Sector {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    /*
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "site_id")
+    
+    @ManyToOne(fetch = FetchType.EAGER)
     private Site site;
-    */
-    @OneToMany(mappedBy = "sector", cascade = CascadeType.ALL, orphanRemoval = true)
+    
+    @OneToMany(mappedBy = "sector", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Itinerary> itinerary;
     
     @Column(nullable = false)

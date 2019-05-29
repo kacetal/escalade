@@ -7,13 +7,12 @@ import fr.kacetal.escalade.persistence.services.SiteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -24,7 +23,6 @@ public class SectorController {
     private static final String VIEW = "sector/view";
     private static final String LIST = "sector/list";
     private static final String UPDATE = "sector/update";
-    private static final String NEW = "sector/new";
     
     private final SectorService sectorService;
     
@@ -108,7 +106,7 @@ public class SectorController {
     
         model.addAttribute("sites", sites);
         model.addAttribute("sector", sector);
-        return NEW;
+        return UPDATE;
     }
     
     //CREATE new sector, POST from front
