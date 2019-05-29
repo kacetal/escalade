@@ -1,11 +1,12 @@
 package fr.kacetal.escalade.persistence.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity(name = "Site")
@@ -29,6 +30,7 @@ public class Site {
     @Column(length = 1000)
     private String description;
     
-    @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "site", fetch = FetchType.EAGER)
+    @Cascade(value = {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
     private List<Sector> sectors;
 }
