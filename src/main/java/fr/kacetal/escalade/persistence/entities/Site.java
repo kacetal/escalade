@@ -1,19 +1,23 @@
 package fr.kacetal.escalade.persistence.entities;
 
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
+import java.util.StringJoiner;
+
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.GenerationType.AUTO;
 
 @Data
-@Entity(name = "Site")
+@Entity
 public class Site {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = AUTO)
     private Long id;
     
     @Size(min = 2, max = 255)
@@ -30,7 +34,38 @@ public class Site {
     @Column(length = 1000)
     private String description;
     
-    @OneToMany(mappedBy = "site", fetch = FetchType.EAGER)
-    @Cascade(value = {org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE})
+    @OneToMany(
+            mappedBy = "site",
+            fetch = EAGER,
+            cascade = {REFRESH, REMOVE})
     private List<Sector> sectors;
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Site site = (Site) o;
+        return id.equals(site.id) &&
+                name.equals(site.name) &&
+                country.equals(site.country) &&
+                region.equals(site.region) &&
+                Objects.equals(description, site.description);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, country, region, description);
+    }
+    
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Site.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .add("country='" + country + "'")
+                .add("region='" + region + "'")
+                .add("description='" + description + "'")
+                .add("NmbrOfSectors=" + sectors.size())
+                .toString();
+    }
 }
