@@ -24,6 +24,7 @@ public class SiteController {
     private static final String VIEW = "site/view";
     private static final String LIST = "site/list";
     private static final String UPDATE = "site/update";
+    private static final String NEW = "site/new";
     
     private final SiteService siteService;
     
@@ -97,7 +98,7 @@ public class SiteController {
     public String createForm(Model model) {
         Site site = new Site();
         model.addAttribute("site", site);
-        return UPDATE;
+        return NEW;
     }
     
     //CREATE new site, POST from front

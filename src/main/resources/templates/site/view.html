@@ -42,9 +42,9 @@
                 <tr th:each="sector : ${sectors}">
                     <td th:text="${sector.name}">Sector name</td>
                     <td th:text="${sector.description}">Sector description</td>
-                    <td><a class="btn btn-outline-info" th:href="${'/sectors/view/' + site.id}">View</a></td>
-                    <td><a class="btn btn-outline-secondary" th:href="${'/sectors/update/' + site.id}">Edit</a></td>
-                    <td><a class="btn btn-outline-danger" th:href="${'/sectors/delete/' + site.id}">Delete</a></td>
+                    <td><a class="btn btn-outline-info" th:href="${'/sectors/view/' + sector.id}">View</a></td>
+                    <td><a class="btn btn-outline-secondary" th:href="${'/sectors/update/' + sector.id}">Edit</a></td>
+                    <td><a class="btn btn-outline-danger" th:href="${'/sectors/delete/' + sector.id}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
