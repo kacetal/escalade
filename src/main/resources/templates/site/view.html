@@ -39,7 +39,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="sector : ${sectors}">
+                <tr th:each="sector : ${site.sectors}">
                     <td th:text="${sector.name}">Sector name</td>
                     <td th:text="${sector.description}">Sector description</td>
                     <td><a class="btn btn-outline-info" th:href="${'/sectors/view/' + sector.id}">View</a></td>

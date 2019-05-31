@@ -4,8 +4,8 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container">
-    <div class="text-left" th:if="${not #lists.isEmpty(sites)}">
-        <h2 th:text="${'Sites: ' + sites.size()}">Sites: </h2>
+    <div class="text-left">
+        <h4 th:text="${'Sites: ' + sites.size()}">Sites: </h4>
         <div class="card-group">
             <div class="card" style="width: 18rem;" th:each="site : ${sites}">
                 <img src="..." class="card-img-top" alt="...">

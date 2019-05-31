@@ -4,7 +4,7 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container">
-    <h1>Update sector</h1>
+    <h4>Update sector</h4>
     <form method="post" th:action="@{/sectors}" th:object="${sector}">
         <input type="hidden" th:field="*{id}"/>
         <div class="form-row">
@@ -37,7 +37,7 @@
                       placeholder="Enter description" th:field="*{description}"></textarea>
             <small id="descriptionHelp" class="form-text text-muted">Size maximal: 1000 characters</small>
         </div>
-        <button type="submit" class="btn btn-primary">Add sector</button>
+        <button type="submit" class="btn btn-primary">Update sector</button>
     </form>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
