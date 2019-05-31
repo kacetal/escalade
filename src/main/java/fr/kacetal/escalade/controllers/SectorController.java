@@ -20,7 +20,6 @@ import java.util.Objects;
 @RequestMapping("/sectors")
 public class SectorController {
     
-    
     private static final String VIEW = "sector/view";
     private static final String LIST = "sector/list";
     private static final String UPDATE = "sector/update";
@@ -84,19 +83,19 @@ public class SectorController {
     @GetMapping(value = "/update/{id}")
     public String updateForm(@PathVariable("id") Long id, Model model) {
         log.info("UPDATE sector by ID : {}", id);
-    
+        
+        List<Site> sites = siteService.findAll();
+        
         Sector sector = sectorService.findById(id);
-    
+        
         if (Objects.isNull(sector)) {
             log.info("Any sector found with ID : {}", id);
             return "redirect:/sectors/";
         }
-    
-        List<Site> sites = siteService.findAll();
-    
+        
         model.addAttribute("sites", sites);
         model.addAttribute("sector", sector);
-    
+        
         return UPDATE;
     }
     
@@ -105,7 +104,7 @@ public class SectorController {
     public String createForm(Model model) {
         Sector sector = new Sector();
         List<Site> sites = siteService.findAll();
-    
+        
         model.addAttribute("sites", sites);
         model.addAttribute("sector", sector);
         return NEW;
@@ -114,8 +113,11 @@ public class SectorController {
     //CREATE new sector, POST from front
     @PostMapping
     public String postSector(Sector sector) {
-        sectorService.save(sector);
-        return "redirect:/sectors/view/" + sector.getId();
+        Sector saveSector = sectorService.save(sector);
+    
+        log.info("SAVE sector:\n{}", saveSector);
+    
+        return "redirect:/sectors/view/" + saveSector.getId();
     }
     
     //DELETE sector by ID
@@ -125,6 +127,6 @@ public class SectorController {
         
         sectorService.delete(id);
         
-        return "redirect:/sites/view";
+        return "redirect:/sectors/view";
     }
 }

@@ -28,11 +28,8 @@ public class SiteController {
     
     private final SiteService siteService;
     
-    private final SectorService sectorService;
-    
-    public SiteController(SiteService siteService, SectorService sectorService) {
+    public SiteController(SiteService siteService) {
         this.siteService = siteService;
-        this.sectorService = sectorService;
     }
     
     
@@ -54,7 +51,7 @@ public class SiteController {
     //SEARCH site by ID
     @GetMapping(path = "/view/{id}")
     public String showById(@PathVariable("id") Long id, Model model) {
-        log.info("READ one site by ID : {}", id);
+        log.info("READ site by ID : {}", id);
         
         Site site = siteService.findById(id);
         
@@ -62,12 +59,9 @@ public class SiteController {
             return "redirect:/sites/";
         }
         
-        List<Sector> sectors = sectorService.findBySite(site);
-        
-        log.info("No. of sectors: {}", sectors.size());
+        log.info("No. of sectors: {}", site.getSectors().size());
         
         model.addAttribute("site", site);
-        model.addAttribute("sectors", sectors);
         
         return VIEW;
     }
@@ -89,7 +83,12 @@ public class SiteController {
     //UPDATE site by ID
     @GetMapping(value = "/update/{id}")
     public String updateForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("site", siteService.findById(id));
+        log.info("UPDATE site by ID : {}", id);
+    
+        Site site = siteService.findById(id);
+        
+        model.addAttribute("site", site);
+        
         return UPDATE;
     }
     
@@ -104,8 +103,11 @@ public class SiteController {
     //CREATE new site, POST from front
     @PostMapping
     public String postSite(@Valid Site site) {
-        siteService.save(site);
-        return "redirect:/sites/view/" + site.getId();
+        Site saveSite = siteService.save(site);
+    
+        log.info("SAVE site:\n{}", saveSite);
+        
+        return "redirect:/sites/view/" + saveSite.getId();
     }
     
     //DELETE site by ID
