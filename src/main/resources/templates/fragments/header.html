@@ -46,6 +46,15 @@
                     <a class="nav-link" href="#" th:href="@{/sectors/new}">
                         Add Sector
                     </a>
+                </li><li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/itineraries}">
+                        Itinerary
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/itineraries/new}">
+                        Add Itinerary
+                    </a>
                 </li>
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">
                     <a class="nav-link" href="/login" th:href="@{/login}">
