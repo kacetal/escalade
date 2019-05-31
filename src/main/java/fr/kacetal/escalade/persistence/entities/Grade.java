@@ -34,14 +34,14 @@ public enum Grade {
     _9bPLUS("9b+"),
     _9c("9c");
     
-    private String name;
+    private String gradeName;
     
     Grade(String name) {
-        this.name = name;
+        this.gradeName = name;
     }
     
     @Override
     public String toString() {
-        return name;
+        return gradeName;
     }
 }

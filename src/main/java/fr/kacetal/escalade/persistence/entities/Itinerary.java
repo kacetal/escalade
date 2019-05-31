@@ -17,27 +17,28 @@ public class Itinerary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne(fetch = EAGER)
-    @JoinColumn(name = "sector_id")
-    private Sector sector;
-    
-    @Enumerated(value = EnumType.STRING)
-    private Grade grade;
-    
     @Column(nullable = false)
     private String name;
     
+    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private String spit;
+    private Grade grade;
+    
+    @Column(nullable = false)
+    private Integer height;
     
     @Column(nullable = false)
     private Integer numberOfParts;
     
     @Column(nullable = false)
-    private Integer height;
+    private String spit;
     
     @Column(length = 1000)
     private String description;
+    
+    @ManyToOne(fetch = EAGER)
+    @JoinColumn(name = "sector_id", nullable = false)
+    private Sector sector;
     
     @Override
     public boolean equals(Object o) {
@@ -64,12 +65,12 @@ public class Itinerary {
         return new StringJoiner(", ", Itinerary.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
                 .add("name='" + name + "'")
-                .add("grade=" + grade)
+                .add("grade='" + (grade == null ? "null" : grade.toString()) + "'")
                 .add("height=" + height)
-                .add("spit='" + spit + "'")
                 .add("numberOfParts=" + numberOfParts)
+                .add("spit='" + spit + "'")
                 .add("description='" + description + "'")
-                .add("sectorName='" + sector.getName() + "'")
+                .add("sectorName='" + (sector == null ? "null" : sector.getName()) + "'")
                 .toString();
     }
 }

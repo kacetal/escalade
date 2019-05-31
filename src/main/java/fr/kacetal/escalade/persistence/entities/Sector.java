@@ -20,6 +20,12 @@ public class Sector {
     @GeneratedValue(strategy = AUTO)
     private Long id;
     
+    @Column(nullable = false)
+    private String name;
+    
+    @Column(length = 1000)
+    private String description;
+    
     @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "site_id")
     private Site site;
@@ -29,12 +35,6 @@ public class Sector {
             fetch = EAGER,
             cascade = {REFRESH, REMOVE})
     private List<Itinerary> itineraries;
-    
-    @Column(nullable = false)
-    private String name;
-    
-    @Column(length = 1000)
-    private String description;
     
     @Override
     public boolean equals(Object o) {
