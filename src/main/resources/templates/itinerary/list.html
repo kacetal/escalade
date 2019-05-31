@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
+    <div class="text-left" >
+        <h4 th:text="${'Itineraries: ' + itineraries.size()}">Itineraries: </h4>
+        <div class="card-group">
+            <div class="card" style="width: 18rem;" th:each="itinerary : ${itineraries}">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${itinerary.name}">Sector name</h5>
+                    <p class="card-text" th:text="${itinerary.description}">Description</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-outline-info" th:href="${'/itineraries/view/' + itinerary.id}">View</a>
+                    <a class="btn btn-outline-secondary" th:href="${'/itineraries/update/' + itinerary.id}">Edit</a>
+                    <a class="btn btn-outline-danger" th:href="${'/itineraries/delete/' + itinerary.id}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

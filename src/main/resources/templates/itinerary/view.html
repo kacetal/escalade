@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
+    <h2>Itinerary details</h2>
+    <div class="lead">
+        <div class="table-responsive-md">
+            <table class="table table-striped">
+                <thead class="thead">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th>Height</th>
+                    <th>Spit</th>
+                    <th>Number of parts</th>
+                    <th>Description</th>
+                    <th>Sector name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${itinerary.id}"></td>
+                    <td th:text="${itinerary.name}"></td>
+                    <td th:text="${itinerary.grade}"></td>
+                    <td th:text="${itinerary.height}"></td>
+                    <td th:text="${itinerary.spit}"></td>
+                    <td th:text="${itinerary.numberOfParts}"></td>
+                    <td th:text="${itinerary.description}"></td>
+                    <td th:text="${itinerary.sector.name}"></td>
+                    <td><a class="btn btn-outline-secondary" th:href="${'/itineraries/update/' + itinerary.id}">Edit</a></td>
+                    <td><a class="btn btn-outline-danger" th:href="${'/itineraries/delete/' + itinerary.id}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
