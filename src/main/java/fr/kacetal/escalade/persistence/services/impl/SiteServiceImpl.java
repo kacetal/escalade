@@ -5,8 +5,8 @@ import fr.kacetal.escalade.persistence.repository.SiteRepository;
 import fr.kacetal.escalade.persistence.services.SiteService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class SiteServiceImpl implements SiteService {
@@ -18,15 +18,15 @@ public class SiteServiceImpl implements SiteService {
     }
     
     @Override
-    public List<Site> findAll() {
-        List<Site> sites = new ArrayList<>();
+    public Set<Site> findAll() {
+        Set<Site> sites = new HashSet<>();
         siteRepository.findAll().forEach(sites::add);
         return sites;
     }
     
     @Override
-    public List<Site> findByName(String name) {
-        return new ArrayList<>(siteRepository.findSitesByNameContainsIgnoreCase(name));
+    public Set<Site> findByName(String name) {
+        return new HashSet<>(siteRepository.findSitesByNameContainsIgnoreCase(name));
     }
     
     @Override

@@ -7,8 +7,8 @@ import fr.kacetal.escalade.persistence.repository.ItineraryRepository;
 import fr.kacetal.escalade.persistence.services.ItineraryService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class ItineraryServiceImpl implements ItineraryService {
@@ -20,24 +20,24 @@ public class ItineraryServiceImpl implements ItineraryService {
     }
     
     @Override
-    public List<Itinerary> findAll() {
-        List<Itinerary> itineraries = new ArrayList<>();
+    public Set<Itinerary> findAll() {
+        Set<Itinerary> itineraries = new TreeSet<>();
         itineraryRepository.findAll().forEach(itineraries::add);
         return itineraries;
     }
     
     @Override
-    public List<Itinerary> findByName(String name) {
+    public Set<Itinerary> findByName(String name) {
         return itineraryRepository.findItinerariesByNameContainsIgnoreCase(name);
     }
     
     @Override
-    public List<Itinerary> findBySector(Sector sector) {
+    public Set<Itinerary> findBySector(Sector sector) {
         return itineraryRepository.findItinerariesBySector(sector);
     }
     
     @Override
-    public List<Itinerary> findBySite(Site site) {
+    public Set<Itinerary> findBySite(Site site) {
         return itineraryRepository.findBySiteId(site.getId());
     }
     

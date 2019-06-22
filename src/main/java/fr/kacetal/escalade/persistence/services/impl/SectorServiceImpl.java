@@ -6,8 +6,8 @@ import fr.kacetal.escalade.persistence.repository.SectorRepository;
 import fr.kacetal.escalade.persistence.services.SectorService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class SectorServiceImpl implements SectorService {
@@ -19,20 +19,20 @@ public class SectorServiceImpl implements SectorService {
     }
     
     @Override
-    public List<Sector> findAll() {
-        List<Sector> sectors = new ArrayList<>();
+    public Set<Sector> findAll() {
+        Set<Sector> sectors = new TreeSet<>();
         sectorRepository.findAll().forEach(sectors::add);
         return sectors;
     }
     
     @Override
-    public List<Sector> findByName(String name) {
-        return new ArrayList<>(sectorRepository.findSectorsByNameContainsIgnoreCase(name));
+    public Set<Sector> findByName(String name) {
+        return new TreeSet<>(sectorRepository.findSectorsByNameContainsIgnoreCase(name));
     }
     
     @Override
-    public List<Sector> findBySite(Site site) {
-        return new ArrayList<>(sectorRepository.findSectorsBySite(site));
+    public Set<Sector> findBySite(Site site) {
+        return new TreeSet<>(sectorRepository.findSectorsBySite(site));
     }
     
     @Override
