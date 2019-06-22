@@ -1,20 +1,20 @@
 package fr.kacetal.escalade.controllers;
 
-import fr.kacetal.escalade.persistence.entities.Sector;
+import fr.kacetal.escalade.persistence.entities.Comment;
 import fr.kacetal.escalade.persistence.entities.Site;
-import fr.kacetal.escalade.persistence.services.SectorService;
 import fr.kacetal.escalade.persistence.services.SiteService;
+import fr.kacetal.escalade.persistence.services.StorageService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Slf4j
 @Controller
@@ -27,11 +27,15 @@ public class SiteController {
     private static final String NEW = "site/new";
     
     private final SiteService siteService;
+    private final StorageService storageService;
     
-    public SiteController(SiteService siteService) {
+    @Value("${upload.path}")
+    private String uploadPath;
+    
+    public SiteController(SiteService siteService, StorageService storageService) {
         this.siteService = siteService;
+        this.storageService = storageService;
     }
-    
     
     // READ all sites
     @GetMapping(path = {"/view", ""})
@@ -39,7 +43,7 @@ public class SiteController {
         
         log.info("READ all sites");
         
-        List<Site> sites = siteService.findAll();
+        Set<Site> sites = siteService.findAll();
         
         model.addAttribute("sites", sites);
         
@@ -61,7 +65,11 @@ public class SiteController {
         
         log.info("No. of sectors: {}", site.getSectors().size());
         
+        TreeSet<Comment> comments = new TreeSet<>(site.getComments());
+        
         model.addAttribute("site", site);
+        model.addAttribute("comment", new Comment());
+        model.addAttribute("comments", comments);
         
         return VIEW;
     }
@@ -84,7 +92,7 @@ public class SiteController {
     @GetMapping(value = "/update/{id}")
     public String updateForm(@PathVariable("id") Long id, Model model) {
         log.info("UPDATE site by ID : {}", id);
-    
+        
         Site site = siteService.findById(id);
         
         model.addAttribute("site", site);
@@ -95,19 +103,26 @@ public class SiteController {
     //CREATE new site
     @GetMapping(value = "/new")
     public String createForm(Model model) {
-        Site site = new Site();
-        model.addAttribute("site", site);
+        log.info("CREATE new site");
+        
+        model.addAttribute("site", new Site());
+        
         return NEW;
     }
     
     //CREATE new site, POST from front
     @PostMapping
-    public String postSite(@Valid Site site) {
-        Site saveSite = siteService.save(site);
-    
-        log.info("SAVE site:\n{}", saveSite);
+    public String postSite(@Valid Site site, @RequestParam("file") MultipartFile file) {
         
-        return "redirect:/sites/view/" + saveSite.getId();
+        String imageName = storageService.save(file);
+        
+        site.setImageName(imageName);
+        
+        Site savedSite = siteService.save(site);
+        
+        log.info("SAVE site:\n{}", savedSite);
+        
+        return "redirect:/sites/view/" + savedSite.getId();
     }
     
     //DELETE site by ID
