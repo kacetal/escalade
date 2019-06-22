@@ -34,7 +34,7 @@ public enum Grade {
     _9bPLUS("9b+"),
     _9c("9c");
     
-    private String gradeName;
+    private final String gradeName;
     
     Grade(String name) {
         this.gradeName = name;
