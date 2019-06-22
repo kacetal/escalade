@@ -2,12 +2,12 @@ package fr.kacetal.escalade.persistence.services;
 
 import fr.kacetal.escalade.persistence.entities.Site;
 
-import java.util.List;
+import java.util.Set;
 
 public interface SiteService {
-    List<Site> findAll();
+    Set<Site> findAll();
     
-    List<Site> findByName(String name);
+    Set<Site> findByName(String name);
     
     Site findById(Long id);
     

@@ -3,14 +3,14 @@ package fr.kacetal.escalade.persistence.services;
 import fr.kacetal.escalade.persistence.entities.Sector;
 import fr.kacetal.escalade.persistence.entities.Site;
 
-import java.util.List;
+import java.util.Set;
 
 public interface SectorService {
-    List<Sector> findAll();
+    Set<Sector> findAll();
     
-    List<Sector> findByName(String name);
+    Set<Sector> findByName(String name);
     
-    List<Sector> findBySite(Site site);
+    Set<Sector> findBySite(Site site);
     
     Sector findById(Long id);
     
