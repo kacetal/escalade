@@ -1,5 +1,6 @@
 package fr.kacetal.escalade.controllers;
 
+import fr.kacetal.escalade.persistence.entities.Comment;
 import fr.kacetal.escalade.persistence.entities.Sector;
 import fr.kacetal.escalade.persistence.entities.Site;
 import fr.kacetal.escalade.persistence.services.SectorService;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Slf4j
 @Controller
@@ -40,7 +42,7 @@ public class SectorController {
         
         log.info("READ all sectors");
         
-        List<Sector> sectors = sectorService.findAll();
+        Set<Sector> sectors = sectorService.findAll();
         
         model.addAttribute("sectors", sectors);
         
@@ -59,8 +61,12 @@ public class SectorController {
             log.info("Any sector found with ID : {}", id);
             return "redirect:/sectors/";
         }
+    
+        TreeSet<Comment> comments = new TreeSet<>(sector.getComments());
         
         model.addAttribute("sector", sector);
+        model.addAttribute("comment", new Comment());
+        model.addAttribute("comments", comments);
         
         return VIEW;
     }
@@ -84,7 +90,7 @@ public class SectorController {
     public String updateForm(@PathVariable("id") Long id, Model model) {
         log.info("UPDATE sector by ID : {}", id);
         
-        List<Site> sites = siteService.findAll();
+        Set<Site> sites = siteService.findAll();
         
         Sector sector = sectorService.findById(id);
         
@@ -103,7 +109,7 @@ public class SectorController {
     @GetMapping(value = "/new")
     public String createForm(Model model) {
         Sector sector = new Sector();
-        List<Site> sites = siteService.findAll();
+        Set<Site> sites = siteService.findAll();
         
         model.addAttribute("sites", sites);
         model.addAttribute("sector", sector);
