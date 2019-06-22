@@ -38,13 +38,71 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="sector : ${sectors}">
-                    <td th:text="${sector.site.name}">Site name</td>
-                    <td th:text="${sector.name}">Sector name</td>
-                    <td th:text="${sector.description}">Sector description</td>
+                <tr th:each="itinerary : ${sector.itineraries}">
+                    <td th:text="${itinerary.name}">Name</td>
+                    <td th:text="${itinerary.description}">Description</td>
+                    <td th:text="${itinerary.sector}">Sector</td>
+                    <td th:text="${itinerary.grade}">Grade</td>
+                    <td th:text="${itinerary.spit}">Spit</td>
+                    <td th:text="${itinerary.sector}">Sector</td>
+                    <td th:text="${itinerary.sector}">Sector</td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="container px-1">
+        <div class="row mx-n1">
+            <div class="col py-1 px-1 col-7">
+                <form method="post" th:action="@{/comment/sector/{id}(id=${sector.id})}"
+                      th:object="${comment}">
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="form-group col justify-content-center">
+                        <div class="form-group col-md-auto">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Name</span>
+                                </div>
+                                <input aria-describedby="nameHelp" class="form-control" id="name" maxlength="50"
+                                       minlength="1" placeholder="Enter name" required th:field="*{userName}"
+                                       type="text">
+                            </div>
+                            <small id="nameHelp" class="form-text text-muted">Size: 1 - 50 characters</small>
+                        </div>
+                        <div class="form-group col-md-auto">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-secondary" type="submit" id="button-submit">Send
+                                        message
+                                    </button>
+                                </div>
+                                <textarea class="form-control" aria-label="With textarea"
+                                          aria-describedby="button-submit" placeholder="Your comment"
+                                          required th:field="*{text}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col py-1 px-1">
+                <div class='mb-5 col-12' th:each="comment : ${comments.descendingSet()}">
+                    <div class='card x-shadow-fade-in-lg h-100' style='min-height: 13rem'>
+                        <div class='bg-secondary card-header d-flex flex-column py-2 text-white'>
+                            <div class='d-flex'>
+                                <div class='ml-auto my-auto' th:text="${#temporals.format(comment.createdOn, 'dd MMMM yyyy HH:mm')}">
+                                    Number of sectors
+                                </div>
+                            </div>
+                        </div>
+                        <div class='card-body d-flex flex-column'>
+                            <div class='d-flex flex-column'>
+                                <h4 class='mr-1' th:text="${comment.userName}">User name</h4>
+                            </div>
+                            <div class='text-muted' th:text="${comment.text}">Text</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
