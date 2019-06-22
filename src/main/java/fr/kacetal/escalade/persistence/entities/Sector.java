@@ -3,18 +3,18 @@ package fr.kacetal.escalade.persistence.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.StringJoiner;
+import java.util.TreeSet;
 
-import static javax.persistence.CascadeType.REFRESH;
-import static javax.persistence.CascadeType.REMOVE;
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.AUTO;
 
 @Data
 @Entity
-public class Sector {
+public class Sector implements Comparable<Sector> {
     
     @Id
     @GeneratedValue(strategy = AUTO)
@@ -34,7 +34,28 @@ public class Sector {
             mappedBy = "sector",
             fetch = EAGER,
             cascade = {REFRESH, REMOVE})
-    private List<Itinerary> itineraries;
+    private Set<Itinerary> itineraries = new TreeSet<>();
+    
+    @OneToMany(
+            orphanRemoval = true,
+            fetch = EAGER,
+            cascade = ALL)
+    @JoinColumn(name = "comment_id")
+    private Set<Comment> comments = new TreeSet<>();
+    
+    public String getShortDescription(int nmbrOfChar) {
+        if (description.length() > nmbrOfChar - 3) {
+            return description.substring(0, nmbrOfChar) + "...";
+        } else {
+            return description;
+        }
+    }
+    
+    @Override
+    public int compareTo(Sector sector) {
+        if (sector == null) return -1;
+        return Long.compare(this.id, sector.getId());
+    }
     
     @Override
     public boolean equals(Object o) {
@@ -42,14 +63,14 @@ public class Sector {
         if (o == null || getClass() != o.getClass()) return false;
         Sector sector = (Sector) o;
         return id.equals(sector.id) &&
-                site.equals(sector.site) &&
                 name.equals(sector.name) &&
-                Objects.equals(description, sector.description);
+                Objects.equals(description, sector.description) &&
+                site.equals(sector.site);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, site, name, description);
+        return Objects.hash(id, name, description, site);
     }
     
     @Override
@@ -58,8 +79,9 @@ public class Sector {
                 .add("id=" + id)
                 .add("name='" + name + "'")
                 .add("description='" + description + "'")
-                .add("siteName='" + site.getName() + "'")
-                .add("NmbrOfItineraries=" + (itineraries == null ? 0 : itineraries.size()))
+                .add("site='" + site.getName() + "'")
+                .add("nmbrOfItineraries=" + itineraries.size())
+                .add("nmbrOfComments=" + comments.size())
                 .toString();
     }
 }

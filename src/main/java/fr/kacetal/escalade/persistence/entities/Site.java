@@ -4,9 +4,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.StringJoiner;
+import java.util.TreeSet;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
@@ -14,7 +15,7 @@ import static javax.persistence.GenerationType.AUTO;
 
 @Data
 @Entity
-public class Site {
+public class Site implements Comparable<Site> {
     
     @Id
     @GeneratedValue(strategy = AUTO)
@@ -38,7 +39,31 @@ public class Site {
             mappedBy = "site",
             fetch = EAGER,
             cascade = {REFRESH, REMOVE})
-    private List<Sector> sectors;
+    private Set<Sector> sectors = new TreeSet<>();
+    
+    @OneToMany(
+            orphanRemoval = true,
+            fetch = EAGER,
+            cascade = ALL)
+    @JoinColumn(name = "comment_id")
+    private Set<Comment> comments = new TreeSet<>();
+    
+    @Column(name = "image_name")
+    private String imageName;
+    
+    public String getShortDescription(int nmbrOfChar) {
+        if (description.length() > nmbrOfChar - 3) {
+            return description.substring(0, nmbrOfChar) + "...";
+        } else {
+            return description;
+        }
+    }
+    
+    @Override
+    public int compareTo(Site site) {
+        if (site == null) return -1;
+        return Long.compare(this.id, site.getId());
+    }
     
     @Override
     public boolean equals(Object o) {
@@ -65,7 +90,9 @@ public class Site {
                 .add("country='" + country + "'")
                 .add("region='" + region + "'")
                 .add("description='" + description + "'")
-                .add("NmbrOfSectors=" + (sectors == null ? 0 : sectors.size()))
+                .add("nmbrOfSectors=" + sectors.size())
+                .add("nmbrOfComments=" + comments.size())
+                .add("imageName='" + imageName + "'")
                 .toString();
     }
 }

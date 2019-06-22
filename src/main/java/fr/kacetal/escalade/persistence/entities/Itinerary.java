@@ -3,15 +3,17 @@ package fr.kacetal.escalade.persistence.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-
 import java.util.Objects;
+import java.util.Set;
 import java.util.StringJoiner;
+import java.util.TreeSet;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
 
 @Data
 @Entity
-public class Itinerary {
+public class Itinerary implements Comparable<Itinerary> {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,24 +42,45 @@ public class Itinerary {
     @JoinColumn(name = "sector_id", nullable = false)
     private Sector sector;
     
+    @OneToMany(
+            orphanRemoval = true,
+            fetch = EAGER,
+            cascade = ALL)
+    @JoinColumn(name = "comment_id")
+    private Set<Comment> comments = new TreeSet<>();
+    
+    public String getShortDescription(int nmbrOfChar) {
+        if (description.length() > nmbrOfChar - 3) {
+            return description.substring(0, nmbrOfChar) + "...";
+        } else {
+            return description;
+        }
+    }
+    
+    @Override
+    public int compareTo(Itinerary itinerary) {
+        if (itinerary == null) return -1;
+        return Long.compare(this.id, itinerary.getId());
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Itinerary itinerary = (Itinerary) o;
         return id.equals(itinerary.id) &&
-                sector.equals(itinerary.sector) &&
-                grade == itinerary.grade &&
                 name.equals(itinerary.name) &&
-                spit.equals(itinerary.spit) &&
-                numberOfParts.equals(itinerary.numberOfParts) &&
+                grade == itinerary.grade &&
                 height.equals(itinerary.height) &&
-                Objects.equals(description, itinerary.description);
+                numberOfParts.equals(itinerary.numberOfParts) &&
+                spit.equals(itinerary.spit) &&
+                Objects.equals(description, itinerary.description) &&
+                sector.equals(itinerary.sector);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, sector, grade, name, spit, numberOfParts, height, description);
+        return Objects.hash(id, name, grade, height, numberOfParts, spit, description, sector);
     }
     
     @Override
@@ -65,12 +88,13 @@ public class Itinerary {
         return new StringJoiner(", ", Itinerary.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
                 .add("name='" + name + "'")
-                .add("grade='" + (grade == null ? "null" : grade.toString()) + "'")
+                .add("grade=" + grade)
                 .add("height=" + height)
                 .add("numberOfParts=" + numberOfParts)
                 .add("spit='" + spit + "'")
                 .add("description='" + description + "'")
-                .add("sectorName='" + (sector == null ? "null" : sector.getName()) + "'")
+                .add("sector='" + sector.getName() + "'")
+                .add("nmbrOfComments=" + comments.size())
                 .toString();
     }
 }
