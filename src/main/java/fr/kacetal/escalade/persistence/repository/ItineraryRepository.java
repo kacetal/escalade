@@ -5,14 +5,14 @@ import fr.kacetal.escalade.persistence.entities.Sector;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
+import java.util.Set;
 
 public interface ItineraryRepository extends CrudRepository<Itinerary, Long> {
-    List<Itinerary> findItinerariesByNameContainsIgnoreCase(String name);
+    Set<Itinerary> findItinerariesByNameContainsIgnoreCase(String name);
     
-    List<Itinerary> findItinerariesBySector(Sector sector);
+    Set<Itinerary> findItinerariesBySector(Sector sector);
     
     @Query(value = "SELECT itinerary.* FROM itinerary INNER JOIN sector ON itinerary.sector_id = sector.id WHERE sector.site_id = ?1",
             nativeQuery = true)
-    List<Itinerary> findBySiteId(Long id);
+    Set<Itinerary> findBySiteId(Long id);
 }

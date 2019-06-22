@@ -3,8 +3,8 @@ package fr.kacetal.escalade.persistence.repository;
 import fr.kacetal.escalade.persistence.entities.Site;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
+import java.util.Set;
 
 public interface SiteRepository extends CrudRepository<Site, Long> {
-    List<Site> findSitesByNameContainsIgnoreCase(String name);
+    Set<Site> findSitesByNameContainsIgnoreCase(String name);
 }
