@@ -1,5 +1,6 @@
 package fr.kacetal.escalade.controllers;
 
+import fr.kacetal.escalade.persistence.entities.Comment;
 import fr.kacetal.escalade.persistence.entities.Grade;
 import fr.kacetal.escalade.persistence.entities.Itinerary;
 import fr.kacetal.escalade.persistence.entities.Sector;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Slf4j
 @Controller
@@ -40,7 +42,7 @@ public class ItineraryController {
     public String list(Model model) {
         log.info("READ all itineraries");
         
-        List<Itinerary> itineraries = itineraryService.findAll();
+        Set<Itinerary> itineraries = itineraryService.findAll();
         
         model.addAttribute("itineraries", itineraries);
         
@@ -61,7 +63,11 @@ public class ItineraryController {
             return "redirect:/itineraries/view";
         }
         
+        TreeSet<Comment> comments = new TreeSet<>(itinerary.getComments());
+        
         model.addAttribute("itinerary", itinerary);
+        model.addAttribute("comment", new Comment());
+        model.addAttribute("comments", comments);
         
         return VIEW;
     }
@@ -73,13 +79,13 @@ public class ItineraryController {
         
         Itinerary itinerary = itineraryService.findById(id);
         
-        List<Sector> sectors = sectorService.findAll();
+        Set<Sector> sectors = sectorService.findAll();
         
         if (Objects.isNull(itinerary)) {
             log.info("Any itinerary found with ID : {}", id);
             return "redirect:/itineraries/";
         }
-    
+        
         model.addAttribute("grades", Grade.values());
         model.addAttribute("itinerary", itinerary);
         model.addAttribute("sectors", sectors);
@@ -90,14 +96,11 @@ public class ItineraryController {
     //CREATE new itinerary
     @GetMapping(value = "/new")
     public String createForm(Model model) {
-        
-        Itinerary itinerary = new Itinerary();
-        
-        List<Sector> sectors = sectorService.findAll();
+        log.info("CREATE new itinerary");
         
         model.addAttribute("grades", Grade.values());
-        model.addAttribute("itinerary", itinerary);
-        model.addAttribute("sectors", sectors);
+        model.addAttribute("itinerary", new Itinerary());
+        model.addAttribute("sectors", sectorService.findAll());
         
         return NEW;
     }
@@ -106,11 +109,11 @@ public class ItineraryController {
     @PostMapping
     public String postSector(Itinerary itinerary) {
         
-        Itinerary saveItinerary = itineraryService.save(itinerary);
+        Itinerary savedItinerary = itineraryService.save(itinerary);
         
-        log.info("SAVE itinerary:\n{}", saveItinerary);
+        log.info("SAVE itinerary:\n{}", savedItinerary);
         
-        return "redirect:/itineraries/view/" + saveItinerary.getId();
+        return "redirect:/itineraries/view/" + savedItinerary.getId();
     }
     
     //DELETE itinerary by ID
@@ -119,7 +122,7 @@ public class ItineraryController {
         log.info("DELETE itinerary by ID : {}", id);
         
         itineraryService.delete(id);
-    
+        
         return "redirect:/itineraries/view";
     }
     
