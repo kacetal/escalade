@@ -6,17 +6,32 @@
 <div class="container">
     <div class="text-left">
         <h4 th:text="${'Sites: ' + sites.size()}">Sites: </h4>
-        <div class="card-group">
-            <div class="card" style="width: 18rem;" th:each="site : ${sites}">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${site.name}">Site name</h5>
-                    <p class="card-text" th:text="${site.description}">Description</p>
+    </div>
+    <div class='row'>
+        <div class='mb-5 col-lg-4 col-sm-6 col-12' th:each="site : ${sites}">
+            <div class='card x-shadow-fade-in-lg h-100' style='min-height: 13rem'>
+                <div class='bg-secondary card-header d-flex flex-column py-2 text-white'>
+                    <div class='d-flex'>
+                        <div class='ml-auto my-auto' th:text="'Number of sectors: ' + ${site.sectors.size()}">
+                            Number of sectors
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a class="btn btn-outline-info" th:href="${'/sites/view/' + site.id}">View</a>
-                    <a class="btn btn-outline-secondary" th:href="${'/sites/update/' + site.id}">Edit</a>
-                    <a class="btn btn-outline-danger" th:href="${'/sites/delete/' + site.id}">Delete</a>
+                <div class='card-body d-flex flex-column'>
+                    <img class="card-img-top" th:src="'img/' + ${site.imageName}"/>
+                    <div class='d-flex flex-column'>
+                        <h4 class='mr-1' th:text="${site.name}">Site name</h4>
+                        <h5 class='mr-1' th:text="${site.country} + ' / ' + ${site.region}">Site country / region</h5>
+                    </div>
+                    <div class='text-muted' th:text="${site.getShortDescription(200)}">Description</div>
+                </div>
+
+                <div class="card-footer d-flex justify-content-end">
+                    <div class="btn-group" role="group" aria-label="Control group">
+                        <a class="btn btn-outline-info" th:href="${'/sites/view/' + site.id}">View</a>
+                        <a class="btn btn-outline-secondary" th:href="${'/sites/update/' + site.id}">Edit</a>
+                        <a class="btn btn-outline-danger" th:href="${'/sites/delete/' + site.id}">Delete</a>
+                    </div>
                 </div>
             </div>
         </div>
