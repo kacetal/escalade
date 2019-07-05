@@ -28,6 +28,9 @@ public class Topo implements Comparable<Topo> {
     @Column(length = 1000)
     private String description;
     
+    @Column(name = "image_name")
+    private String imageName;
+    
     @OneToMany(
             orphanRemoval = true,
             fetch = EAGER,
