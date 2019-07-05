@@ -42,11 +42,13 @@ public class Itinerary implements Comparable<Itinerary> {
     @JoinColumn(name = "sector_id", nullable = false)
     private Sector sector;
     
+    @Column(name = "image_name")
+    private String imageName;
+    
     @OneToMany(
             orphanRemoval = true,
             fetch = EAGER,
             cascade = ALL)
-    @JoinColumn(name = "comment_id")
     private Set<Comment> comments = new TreeSet<>();
     
     public String getShortDescription(int nmbrOfChar) {
@@ -95,6 +97,7 @@ public class Itinerary implements Comparable<Itinerary> {
                 .add("description='" + description + "'")
                 .add("sector='" + sector.getName() + "'")
                 .add("nmbrOfComments=" + comments.size())
+                .add("imageName='" + imageName + "'")
                 .toString();
     }
 }

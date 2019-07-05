@@ -10,20 +10,20 @@
             <table class="table table-striped">
                 <thead class="thead">
                 <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Country</th>
                     <th>Region</th>
                     <th>Description</th>
+                    <th>Number of sectors</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td th:text="${site.id}">ID</td>
-                    <td th:text="${site.name}">Name</td>
-                    <td th:text="${site.country}">Country</td>
-                    <td th:text="${site.region}">Region</td>
-                    <td th:text="${site.getShortDescription(50)}">Description</td>
+                    <td th:text="${site.name}"></td>
+                    <td th:text="${site.country}"></td>
+                    <td th:text="${site.region}"></td>
+                    <td th:text="${site.description}"></td>
+                    <td th:text="${site.sectors.size()}"></td>
                     <td><a class="btn btn-outline-secondary" th:href="${'/sites/update/' + site.id}">Edit</a></td>
                     <td><a class="btn btn-outline-danger" th:href="${'/sites/delete/' + site.id}">Delete</a></td>
                 </tr>
@@ -34,14 +34,12 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                 <tr>
-                    <th>Sector ID</th>
                     <th>Sector name</th>
                     <th>Sector description</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="sector : ${site.sectors}">
-                    <td th:text="${sector.id}">Sector id</td>
                     <td th:text="${sector.name}">Sector name</td>
                     <td th:text="${sector.getShortDescription(50)}">Sector description</td>
                     <td><a class="btn btn-outline-info" th:href="${'/sectors/view/' + sector.id}">View</a></td>

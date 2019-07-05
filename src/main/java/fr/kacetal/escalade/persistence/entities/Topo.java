@@ -35,14 +35,12 @@ public class Topo implements Comparable<Topo> {
             orphanRemoval = true,
             fetch = EAGER,
             cascade = ALL)
-    @JoinColumn(name = "comment_id")
     private Set<Comment> comments = new TreeSet<>();
     
     @OneToMany(
             orphanRemoval = true,
             fetch = EAGER,
             cascade = ALL)
-    @JoinColumn(name = "site_id")
     private Set<Site> sites = new TreeSet<>();
     
     public String getShortDescription(int nmbrOfChar) {

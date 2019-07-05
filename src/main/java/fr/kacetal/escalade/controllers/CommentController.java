@@ -23,8 +23,8 @@ import java.util.Objects;
 public class CommentController {
     
     private static final String SITE_VIEW = "redirect:/sites/view/";
-    private static final String SECTORS_VIEW = "redirect:/sector/view/";
-    private static final String ITINERARY_VIEW = "redirect:/itinerary/view/";
+    private static final String SECTORS_VIEW = "redirect:/sectors/view/";
+    private static final String ITINERARY_VIEW = "redirect:/itineraries/view/";
     
     private final SiteService siteService;
     private final SectorService sectorService;

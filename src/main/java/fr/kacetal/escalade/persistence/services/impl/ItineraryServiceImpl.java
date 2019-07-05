@@ -28,7 +28,7 @@ public class ItineraryServiceImpl implements ItineraryService {
     
     @Override
     public Set<Itinerary> findByName(String name) {
-        return itineraryRepository.findItinerariesByNameContainsIgnoreCase(name);
+        return itineraryRepository.findItinerariesByNameContainingIgnoreCase(name);
     }
     
     @Override

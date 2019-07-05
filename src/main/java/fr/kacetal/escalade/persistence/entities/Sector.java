@@ -30,6 +30,9 @@ public class Sector implements Comparable<Sector> {
     @JoinColumn(name = "site_id")
     private Site site;
     
+    @Column(name = "image_name")
+    private String imageName;
+    
     @OneToMany(
             mappedBy = "sector",
             fetch = EAGER,
@@ -40,7 +43,6 @@ public class Sector implements Comparable<Sector> {
             orphanRemoval = true,
             fetch = EAGER,
             cascade = ALL)
-    @JoinColumn(name = "comment_id")
     private Set<Comment> comments = new TreeSet<>();
     
     public String getShortDescription(int nmbrOfChar) {
@@ -82,6 +84,7 @@ public class Sector implements Comparable<Sector> {
                 .add("site='" + site.getName() + "'")
                 .add("nmbrOfItineraries=" + itineraries.size())
                 .add("nmbrOfComments=" + comments.size())
+                .add("imageName='" + imageName + "'")
                 .toString();
     }
 }

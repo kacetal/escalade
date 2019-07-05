@@ -1,9 +1,7 @@
 package fr.kacetal.escalade.controllers;
 
 import fr.kacetal.escalade.persistence.entities.Comment;
-import fr.kacetal.escalade.persistence.entities.Site;
 import fr.kacetal.escalade.persistence.entities.Topo;
-import fr.kacetal.escalade.persistence.services.SiteService;
 import fr.kacetal.escalade.persistence.services.StorageService;
 import fr.kacetal.escalade.persistence.services.TopoService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +25,9 @@ public class TopoController {
     private static final String LIST = "topo/list";
     private static final String UPDATE = "topo/update";
     private static final String NEW = "topo/new";
+    
+    @Value("${default.imagename}")
+    private String defaultImageName;
     
     private final TopoService topoService;
     private final StorageService storageService;
@@ -118,7 +119,9 @@ public class TopoController {
     public String postSite(@Valid Topo topo, @RequestParam("file") MultipartFile file) {
         log.info("POST new topo: {}", topo);
     
-        String imageName = storageService.save(file);
+        String fileImageName = storageService.save(file);
+    
+        String imageName = selectImageName(topo.getImageName(), fileImageName);
     
         topo.setImageName(imageName);
     
@@ -126,7 +129,7 @@ public class TopoController {
         
         log.info("SAVE topo:\n{}", topo);
         
-        return "redirect:" + VIEW + topo.getId();
+        return "redirect:topos/view" + topo.getId();
     }
     
     //DELETE topo by ID
@@ -136,6 +139,16 @@ public class TopoController {
     
         topoService.delete(id);
         
-        return "redirect:" + LIST;
+        return "redirect:topos/list";
+    }
+    
+    private String selectImageName(String imageName, String fileImageName) {
+        if (Objects.isNull(imageName) || imageName.isBlank()) {
+            return defaultImageName;
+        } else if (!defaultImageName.equals(fileImageName)) {
+            return fileImageName;
+        } else {
+            return imageName;
+        }
     }
 }

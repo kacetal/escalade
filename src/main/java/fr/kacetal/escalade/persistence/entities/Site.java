@@ -45,7 +45,6 @@ public class Site implements Comparable<Site> {
             orphanRemoval = true,
             fetch = EAGER,
             cascade = ALL)
-    @JoinColumn(name = "comment_id")
     private Set<Comment> comments = new TreeSet<>();
     
     @Column(name = "image_name")

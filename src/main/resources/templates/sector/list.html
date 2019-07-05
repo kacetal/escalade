@@ -4,19 +4,42 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container">
-    <div class="text-left" >
+    <div class="text-left">
         <h4 th:text="${'Sectors: ' + sectors.size()}">Sectors: </h4>
-        <div class="card-group">
-            <div class="card" style="width: 18rem;" th:each="sector : ${sectors}">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${sector.name}">Sector name</h5>
-                    <p class="card-text" th:text="${sector.description}">Description</p>
+    </div>
+    <div class='row'>
+        <div class='mb-5 col-lg-4 col-sm-6 col-12' th:each="sector : ${sectors}">
+            <div class='card x-shadow-fade-in-lg h-100'>
+                <div class='bg-secondary card-header d-flex flex-column py-2 text-white'>
+                    <div class='d-flex'>
+                        <div class='ml-auto my-auto' th:text="'Number of itineraries: ' + ${sector.getItineraries().size()}">
+                            Number of itineraries
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a class="btn btn-outline-info" th:href="${'/sectors/view/' + sector.id}">View</a>
-                    <a class="btn btn-outline-secondary" th:href="${'/sectors/update/' + sector.id}">Edit</a>
-                    <a class="btn btn-outline-danger" th:href="${'/sectors/delete/' + sector.id}">Delete</a>
+                <div class='card-body d-flex flex-column'>
+                    <img class="card-img-top"
+                         width="50px"
+                         style="max-height: 200px"
+                         th:src="'/img/' + ${sector.imageName}"/>
+                    <div class='d-flex flex-column'>
+                        <h4 class='mr-1' th:text="${sector.name}">
+                            Sector name
+                        </h4>
+                        <h5 class='mr-1' th:text="'Sector\'s site' + ${sector.site.name}">
+                            Site
+                        </h5>
+                    </div>
+                    <div class='text-muted mb-2' th:text="${sector.getShortDescription(200)}">
+                        Description
+                    </div>
+                    <div class='mt-auto d-flex'>
+                        <div class='ml-auto'>
+                            <a class="x-link-without-decoration stretched-link"
+                               th:href="${'/sectors/view/' + sector.id}">
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

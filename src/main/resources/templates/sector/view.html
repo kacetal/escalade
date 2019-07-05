@@ -10,42 +10,46 @@
             <table class="table table-striped">
                 <thead class="thead">
                 <tr>
-                    <th>ID</th>
-                    <th>Site name</th>
+                    <th>Site</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Number of itineraries</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td th:text="${sector.id}">ID</td>
-                    <td th:text="${sector.site.name}">Sector's site</td>
-                    <td th:text="${sector.name}">Name</td>
-                    <td th:text="${sector.description}">Description</td>
+                    <td th:text="${sector.site.name}"></td>
+                    <td th:text="${sector.name}"></td>
+                    <td th:text="${sector.description}"></td>
+                    <td th:text="${sector.itineraries.size()}"></td>
                     <td><a class="btn btn-outline-secondary" th:href="${'/sectors/update/' + sector.id}">Edit</a></td>
                     <td><a class="btn btn-outline-danger" th:href="${'/sectors/delete/' + sector.id}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
-        </div>
-        <div class="table-responsive-md">
+
             <table class="table table-striped">
                 <thead class="thead-dark">
                 <tr>
-                    <th>Site name</th>
-                    <th>Sector name</th>
-                    <th>Sector description</th>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th>Height</th>
+                    <th>Number of parts</th>
+                    <th>Description</th>
+                    <th>Image name</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="itinerary : ${sector.itineraries}">
-                    <td th:text="${itinerary.name}">Name</td>
-                    <td th:text="${itinerary.description}">Description</td>
-                    <td th:text="${itinerary.sector}">Sector</td>
-                    <td th:text="${itinerary.grade}">Grade</td>
-                    <td th:text="${itinerary.spit}">Spit</td>
-                    <td th:text="${itinerary.sector}">Sector</td>
-                    <td th:text="${itinerary.sector}">Sector</td>
+                    <td th:text="${itinerary.name}"></td>
+                    <td th:text="${itinerary.grade}"></td>
+                    <td th:text="${itinerary.height}"></td>
+                    <td th:text="${itinerary.numberOfParts}"></td>
+                    <td th:text="${itinerary.description}"></td>
+                    <td th:text="${itinerary.imageName}"></td>
+                    <td><a class="btn btn-outline-info" th:href="${'/itineraries/view/' + sector.id}">View</a></td>
+                    <td><a class="btn btn-outline-secondary" th:href="${'/itineraries/update/' + sector.id}">Edit</a></td>
+                    <td><a class="btn btn-outline-danger" th:href="${'/itineraries/delete/' + sector.id}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -89,7 +93,8 @@
                     <div class='card x-shadow-fade-in-lg h-100' style='min-height: 13rem'>
                         <div class='bg-secondary card-header d-flex flex-column py-2 text-white'>
                             <div class='d-flex'>
-                                <div class='ml-auto my-auto' th:text="${#temporals.format(comment.createdOn, 'dd MMMM yyyy HH:mm')}">
+                                <div class='ml-auto my-auto'
+                                     th:text="${#temporals.format(comment.createdOn, 'dd MMMM yyyy HH:mm')}">
                                     Number of sectors
                                 </div>
                             </div>

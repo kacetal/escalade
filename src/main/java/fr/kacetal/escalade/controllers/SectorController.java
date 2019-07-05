@@ -5,13 +5,13 @@ import fr.kacetal.escalade.persistence.entities.Sector;
 import fr.kacetal.escalade.persistence.entities.Site;
 import fr.kacetal.escalade.persistence.services.SectorService;
 import fr.kacetal.escalade.persistence.services.SiteService;
+import fr.kacetal.escalade.persistence.services.StorageService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 import java.util.Set;
@@ -27,17 +27,21 @@ public class SectorController {
     private static final String UPDATE = "sector/update";
     private static final String NEW = "sector/new";
     
+    @Value("${default.imagename}")
+    private String defaultImageName;
+    
     private final SectorService sectorService;
-    
     private final SiteService siteService;
+    private final StorageService storageService;
     
-    public SectorController(SectorService sectorService, SiteService siteService) {
+    public SectorController(SectorService sectorService, SiteService siteService, StorageService storageService) {
         this.sectorService = sectorService;
         this.siteService = siteService;
+        this.storageService = storageService;
     }
     
     // READ all sectors
-    @GetMapping(path = {"/view", ""})
+    @GetMapping(path = {"/view", "/list", ""})
     public String list(Model model) {
         
         log.info("READ all sectors");
@@ -46,7 +50,7 @@ public class SectorController {
         
         model.addAttribute("sectors", sectors);
         
-        log.info("No. of sectors: {}", sectors.size());
+        log.info("Nmbr. of sectors: {}", sectors.size());
         
         return LIST;
     }
@@ -118,12 +122,19 @@ public class SectorController {
     
     //CREATE new sector, POST from front
     @PostMapping
-    public String postSector(Sector sector) {
-        Sector saveSector = sectorService.save(sector);
+    public String postSector(Sector sector, @RequestParam("file") MultipartFile file) {
+        
+        String fileImageName = storageService.save(file);
     
-        log.info("SAVE sector:\n{}", saveSector);
+        String imageName = selectImageName(sector.getImageName(), fileImageName);
     
-        return "redirect:/sectors/view/" + saveSector.getId();
+        sector.setImageName(imageName);
+    
+        sector = sectorService.save(sector);
+    
+        log.info("SAVE sector:\n{}", sector);
+    
+        return "redirect:/sectors/view/" + sector.getId();
     }
     
     //DELETE sector by ID
@@ -134,5 +145,15 @@ public class SectorController {
         sectorService.delete(id);
         
         return "redirect:/sectors/view";
+    }
+    
+    private String selectImageName(String imageName, String fileImageName) {
+        if (Objects.isNull(imageName) || imageName.isBlank()) {
+            return defaultImageName;
+        } else if (!defaultImageName.equals(fileImageName)) {
+            return fileImageName;
+        } else {
+            return imageName;
+        }
     }
 }

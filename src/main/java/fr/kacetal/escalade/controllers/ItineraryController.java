@@ -6,13 +6,13 @@ import fr.kacetal.escalade.persistence.entities.Itinerary;
 import fr.kacetal.escalade.persistence.entities.Sector;
 import fr.kacetal.escalade.persistence.services.ItineraryService;
 import fr.kacetal.escalade.persistence.services.SectorService;
+import fr.kacetal.escalade.persistence.services.StorageService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 import java.util.Set;
@@ -28,17 +28,21 @@ public class ItineraryController {
     private static final String UPDATE = "itinerary/update";
     private static final String NEW = "itinerary/new";
     
+    @Value("${default.imagename}")
+    private String defaultImageName;
+    
     private final ItineraryService itineraryService;
-    
     private final SectorService sectorService;
+    private final StorageService storageService;
     
-    public ItineraryController(ItineraryService itineraryService, SectorService sectorService) {
+    public ItineraryController(ItineraryService itineraryService, SectorService sectorService, StorageService storageService) {
         this.itineraryService = itineraryService;
         this.sectorService = sectorService;
+        this.storageService = storageService;
     }
     
     //READ all itineraries
-    @GetMapping(path = {"", "view"})
+    @GetMapping(path = {"view", "list", ""})
     public String list(Model model) {
         log.info("READ all itineraries");
         
@@ -107,13 +111,19 @@ public class ItineraryController {
     
     //CREATE new itinerary, POST from front
     @PostMapping
-    public String postSector(Itinerary itinerary) {
+    public String postSector(Itinerary itinerary, @RequestParam("file") MultipartFile file) {
+    
+        String fileImageName = storageService.save(file);
+    
+        String imageName = selectImageName(itinerary.getImageName(), fileImageName);
+    
+        itinerary.setImageName(imageName);
+    
+        itinerary = itineraryService.save(itinerary);
         
-        Itinerary savedItinerary = itineraryService.save(itinerary);
+        log.info("SAVE itinerary:\n{}", itinerary);
         
-        log.info("SAVE itinerary:\n{}", savedItinerary);
-        
-        return "redirect:/itineraries/view/" + savedItinerary.getId();
+        return "redirect:/itineraries/view/" + itinerary.getId();
     }
     
     //DELETE itinerary by ID
@@ -126,5 +136,13 @@ public class ItineraryController {
         return "redirect:/itineraries/view";
     }
     
-    
+    private String selectImageName(String imageName, String fileImageName) {
+        if (Objects.isNull(imageName) || imageName.isBlank()) {
+            return defaultImageName;
+        } else if (!defaultImageName.equals(fileImageName)) {
+            return fileImageName;
+        } else {
+            return imageName;
+        }
+    }
 }

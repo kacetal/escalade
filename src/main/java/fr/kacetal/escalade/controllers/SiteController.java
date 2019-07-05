@@ -26,11 +26,11 @@ public class SiteController {
     private static final String UPDATE = "site/update";
     private static final String NEW = "site/new";
     
+    @Value("${default.imagename}")
+    private String defaultImageName;
+    
     private final SiteService siteService;
     private final StorageService storageService;
-    
-    @Value("${upload.path}")
-    private String uploadPath;
     
     public SiteController(SiteService siteService, StorageService storageService) {
         this.siteService = siteService;
@@ -38,7 +38,7 @@ public class SiteController {
     }
     
     // READ all sites
-    @GetMapping(path = {"/view", ""})
+    @GetMapping(path = {"/view", "/list", ""})
     public String list(Model model) {
         
         log.info("READ all sites");
@@ -60,10 +60,10 @@ public class SiteController {
         Site site = siteService.findById(id);
         
         if (Objects.isNull(site)) {
-            return "redirect:/sites/";
+            return "redirect:/sites/list";
         }
         
-        log.info("No. of sectors: {}", site.getSectors().size());
+        log.info("Nmbr. of sectors: {}", site.getSectors().size());
         
         TreeSet<Comment> comments = new TreeSet<>(site.getComments());
         
@@ -114,24 +114,36 @@ public class SiteController {
     @PostMapping
     public String postSite(@Valid Site site, @RequestParam("file") MultipartFile file) {
         
-        String imageName = storageService.save(file);
+        String fileImageName = storageService.save(file);
+    
+        String imageName = selectImageName(site.getImageName(), fileImageName);
         
         site.setImageName(imageName);
+    
+        site = siteService.save(site);
         
-        Site savedSite = siteService.save(site);
+        log.info("SAVE site:\n{}", site);
         
-        log.info("SAVE site:\n{}", savedSite);
-        
-        return "redirect:/sites/view/" + savedSite.getId();
+        return "redirect:/sites/view/" + site.getId();
     }
     
     //DELETE site by ID
     @GetMapping(value = "/delete/{id}")
-    public String deleteSite(@PathVariable("id") Long id) {
+    public String deleteSite(@PathVariable("id") Long id, Model model) {
         log.info("DELETE site by ID : {}", id);
         
         siteService.delete(id);
         
         return "redirect:/sites/view";
+    }
+    
+    private String selectImageName(String imageName, String fileImageName) {
+        if (Objects.isNull(imageName) || imageName.isBlank()) {
+            return defaultImageName;
+        } else if (!defaultImageName.equals(fileImageName)) {
+            return fileImageName;
+        } else {
+            return imageName;
+        }
     }
 }

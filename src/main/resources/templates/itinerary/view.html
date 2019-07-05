@@ -10,26 +10,24 @@
             <table class="table table-striped">
                 <thead class="thead">
                 <tr>
-                    <th>ID</th>
+                    <th>Sector</th>
                     <th>Name</th>
                     <th>Grade</th>
                     <th>Height</th>
                     <th>Number of parts</th>
                     <th>Spit</th>
                     <th>Description</th>
-                    <th>Sector's name</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td th:text="${itinerary.id}"></td>
+                    <td th:text="${itinerary.sector.name}"></td>
                     <td th:text="${itinerary.name}"></td>
                     <td th:text="${itinerary.grade}"></td>
                     <td th:text="${itinerary.height}"></td>
                     <td th:text="${itinerary.numberOfParts}"></td>
                     <td th:text="${itinerary.spit}"></td>
                     <td th:text="${itinerary.getShortDescription(50)}"></td>
-                    <td th:text="${itinerary.sector.name}"></td>
                     <td><a class="btn btn-outline-secondary" th:href="${'/itineraries/update/' + itinerary.id}">Edit</a></td>
                     <td><a class="btn btn-outline-danger" th:href="${'/itineraries/delete/' + itinerary.id}">Delete</a></td>
                 </tr>

@@ -5,24 +5,23 @@
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container">
     <h4>Update site</h4>
-    <form method="post" th:action="@{/sites}" th:object="${site}" enctype="multipart/form-data">
+    <form method="post" th:action="@{/sites}" th:object="${site}">
         <input type="hidden" th:field="*{id}"/>
-        <input type="hidden" th:field="*{imageName}"/>
         <div class="form-row">
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Name</span>
+                        <span class="input-group-text">Site name</span>
                     </div>
                     <input aria-describedby="nameHelp" autofocus class="form-control" id="name" maxlength="255"
                            minlength="2" placeholder="Enter name" required th:field="*{name}" type="text">
                 </div>
                 <small id="nameHelp" class="form-text text-muted">Size: 2 - 255 characters</small>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Country</span>
+                        <span class="input-group-text">Site country</span>
                     </div>
                     <input aria-describedby="countryHelp" class="form-control" id="country" maxlength="255"
                            minlength="2"
@@ -30,25 +29,15 @@
                 </div>
                 <small id="countryHelp" class="form-text text-muted">Size: 2 - 255 characters</small>
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Region</span>
+                        <span class="input-group-text">Site region</span>
                     </div>
                     <input aria-describedby="regionHelp" class="form-control" id="region" maxlength="255" minlength="2"
                            placeholder="Enter region" required th:field="*{region}" type="text">
                 </div>
                 <small id="regionHelp" class="form-text text-muted">Size: 2 - 255 characters</small>
-            </div>
-            <div class="form-group col-md-3 border-dark">
-                <div class="input-group border bg-light">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Image</span>
-                    </div>
-                    <input aria-describedby="imageHelp" class="custom-file-input form-control" id="file"
-                           placeholder="Image" type="file" name="file">
-                </div>
-                <small id="imageHelp" class="form-text text-muted">Max image size 1MB</small>
             </div>
         </div>
         <div class="form-group">

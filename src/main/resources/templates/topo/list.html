@@ -21,7 +21,7 @@
                     <img class="card-img-top"
                          width="50px"
                          style="max-height: 200px"
-                         th:src="'/img/' + ${site.imageName}"/>
+                         th:src="'img/' + ${site.imageName}"/>
                     <div class='d-flex flex-column'>
                         <h4 class='mr-1' th:text="${site.name}">
                             Site name
@@ -35,8 +35,8 @@
                     </div>
                     <div class='mt-auto d-flex'>
                         <div class='ml-auto'>
-                            <a class="x-link-without-decoration stretched-link"
-                               th:href="${'/sites/view/' + site.id}">
+                            <a class="x-link-without-decoration stretched-link" th:href="${'/sites/view/' + site.id}">
+                                View
                             </a>
                         </div>
                     </div>
