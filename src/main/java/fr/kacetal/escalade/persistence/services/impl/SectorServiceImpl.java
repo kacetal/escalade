@@ -27,7 +27,7 @@ public class SectorServiceImpl implements SectorService {
     
     @Override
     public Set<Sector> findByName(String name) {
-        return new TreeSet<>(sectorRepository.findSectorsByNameContainsIgnoreCase(name));
+        return new TreeSet<>(sectorRepository.findSectorsByNameContainingIgnoreCase(name));
     }
     
     @Override
