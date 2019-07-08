@@ -1,5 +1,6 @@
 package fr.kacetal.escalade.persistence.repository;
 
+import fr.kacetal.escalade.persistence.entities.Grade;
 import fr.kacetal.escalade.persistence.entities.Itinerary;
 import fr.kacetal.escalade.persistence.entities.Sector;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 public interface ItineraryRepository extends JpaRepository<Itinerary, Long> {
     Set<Itinerary> findItinerariesByNameContainingIgnoreCase(String name);
-    Set<Itinerary> findItinerariesByGradeContainingIgnoreCase(String grade);
+    Set<Itinerary> findItinerariesByGrade(Grade grade);
     Set<Itinerary> findItinerariesBySpitContainingIgnoreCase(String spit);
     Set<Itinerary> findItinerariesByHeight(Integer height);
     Set<Itinerary> findItinerariesByNumberOfParts(Integer numberOfParts);
