@@ -1,6 +1,8 @@
-package fr.kacetal.escalade.persistence.entities;
+package fr.kacetal.escalade.persistence.entities.util;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.kacetal.escalade.persistence.entities.Site;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -41,7 +43,15 @@ public class Topo implements Comparable<Topo> {
             orphanRemoval = true,
             fetch = EAGER,
             cascade = ALL)
-    private Set<Site> sites = new TreeSet<>();
+    @JsonProperty("reservations")
+    private Set<Reservation> reservations = new TreeSet<>();
+    
+    @OneToOne(
+            orphanRemoval = true,
+            fetch = EAGER,
+            cascade = ALL)
+    @JoinColumn(name = "site_id")
+    private Site site;
     
     public String getShortDescription(int nmbrOfChar) {
         if (description.length() > nmbrOfChar - 3) {

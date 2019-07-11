@@ -1,6 +1,6 @@
-package fr.kacetal.escalade.persistence.repository;
+package fr.kacetal.escalade.persistence.repository.util;
 
-import fr.kacetal.escalade.persistence.entities.Topo;
+import fr.kacetal.escalade.persistence.entities.util.Topo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Set;

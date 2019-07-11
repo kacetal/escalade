@@ -1,9 +1,9 @@
-package fr.kacetal.escalade.controllers;
+package fr.kacetal.escalade.controllers.util;
 
-import fr.kacetal.escalade.persistence.entities.Comment;
-import fr.kacetal.escalade.persistence.entities.Topo;
-import fr.kacetal.escalade.persistence.services.StorageService;
-import fr.kacetal.escalade.persistence.services.TopoService;
+import fr.kacetal.escalade.persistence.entities.util.Comment;
+import fr.kacetal.escalade.persistence.entities.util.Topo;
+import fr.kacetal.escalade.persistence.services.util.StorageService;
+import fr.kacetal.escalade.persistence.services.util.TopoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -66,7 +66,7 @@ public class TopoController {
             return "redirect:/topos/list";
         }
         
-        log.info("Nmbr. of topos: {}", topo.getSites().size());
+        log.info("Site in the topo: {}", topo.getSite());
         
         TreeSet<Comment> comments = new TreeSet<>(topo.getComments());
         

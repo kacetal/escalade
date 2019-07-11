@@ -1,17 +1,12 @@
 package fr.kacetal.escalade.persistence.services;
 
 import fr.kacetal.escalade.persistence.entities.Site;
+import fr.kacetal.escalade.persistence.services.util.GenericService;
 
 import java.util.Set;
 
-public interface SiteService {
-    Set<Site> findAll();
+public interface SiteService extends GenericService<Site> {
+    Set<Site> findByCountry(String name);
     
-    Set<Site> findByName(String name);
-    
-    Site findById(Long id);
-    
-    Site save(Site site);
-    
-    void delete(Long id);
+    Set<Site> findByRegion(String name);
 }

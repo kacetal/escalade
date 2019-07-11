@@ -1,5 +1,7 @@
 package fr.kacetal.escalade.persistence.entities;
 
+import fr.kacetal.escalade.persistence.entities.util.Comment;
+import fr.kacetal.escalade.persistence.entities.util.Topo;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -34,6 +36,13 @@ public class Site implements Comparable<Site> {
     @Size(max = 1000)
     @Column(length = 1000)
     private String description;
+    
+    @OneToOne(
+            mappedBy = "site",
+            cascade = ALL,
+            fetch = EAGER,
+            optional = false)
+    private Topo topo;
     
     @OneToMany(
             mappedBy = "site",

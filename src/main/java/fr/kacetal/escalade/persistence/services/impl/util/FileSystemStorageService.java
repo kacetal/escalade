@@ -1,6 +1,6 @@
-package fr.kacetal.escalade.persistence.services.impl;
+package fr.kacetal.escalade.persistence.services.impl.util;
 
-import fr.kacetal.escalade.persistence.services.StorageService;
+import fr.kacetal.escalade.persistence.services.util.StorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

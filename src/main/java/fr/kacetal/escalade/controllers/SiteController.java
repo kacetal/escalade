@@ -1,9 +1,9 @@
 package fr.kacetal.escalade.controllers;
 
-import fr.kacetal.escalade.persistence.entities.Comment;
 import fr.kacetal.escalade.persistence.entities.Site;
+import fr.kacetal.escalade.persistence.entities.util.Comment;
 import fr.kacetal.escalade.persistence.services.SiteService;
-import fr.kacetal.escalade.persistence.services.StorageService;
+import fr.kacetal.escalade.persistence.services.util.StorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

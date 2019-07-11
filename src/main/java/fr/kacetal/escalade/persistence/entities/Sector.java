@@ -1,5 +1,6 @@
 package fr.kacetal.escalade.persistence.entities;
 
+import fr.kacetal.escalade.persistence.entities.util.Comment;
 import lombok.Data;
 
 import javax.persistence.*;

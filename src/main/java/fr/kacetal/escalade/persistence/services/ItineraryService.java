@@ -1,25 +1,24 @@
 package fr.kacetal.escalade.persistence.services;
 
 import fr.kacetal.escalade.persistence.entities.Itinerary;
-import fr.kacetal.escalade.persistence.entities.Sector;
-import fr.kacetal.escalade.persistence.entities.Site;
+import fr.kacetal.escalade.persistence.entities.util.Grade;
+import fr.kacetal.escalade.persistence.services.util.GenericService;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
-public interface ItineraryService {
-    Set<Itinerary> findAll();
+public interface ItineraryService extends GenericService<Itinerary> {
     
-    Itinerary findById(Long id);
+    Set<Itinerary> findBySectorId(Long sectorId);
     
-    Set<Itinerary> findByName(String name);
+    Set<Itinerary> findBySiteId(Long siteId);
     
-    Set<Itinerary> findBySector(Sector sector);
+    Set<Itinerary> findByGrade(Grade grade);
     
-    Set<Itinerary> findBySite(Site site);
+    Set<Itinerary> findBySpit(String spit);
     
-    Itinerary save(Itinerary itinerary);
+    Set<Itinerary> findByHeight(Integer height);
     
-    void delete(Long id);
+    Set<Itinerary> findByNumberOfParts(Integer numberOfParts);
 }

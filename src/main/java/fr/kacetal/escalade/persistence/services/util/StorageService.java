@@ -1,4 +1,4 @@
-package fr.kacetal.escalade.persistence.services;
+package fr.kacetal.escalade.persistence.services.util;
 
 import org.springframework.web.multipart.MultipartFile;
 

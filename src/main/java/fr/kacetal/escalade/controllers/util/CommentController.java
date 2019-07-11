@@ -1,9 +1,9 @@
-package fr.kacetal.escalade.controllers;
+package fr.kacetal.escalade.controllers.util;
 
-import fr.kacetal.escalade.persistence.entities.Comment;
 import fr.kacetal.escalade.persistence.entities.Itinerary;
 import fr.kacetal.escalade.persistence.entities.Sector;
 import fr.kacetal.escalade.persistence.entities.Site;
+import fr.kacetal.escalade.persistence.entities.util.Comment;
 import fr.kacetal.escalade.persistence.services.ItineraryService;
 import fr.kacetal.escalade.persistence.services.SectorService;
 import fr.kacetal.escalade.persistence.services.SiteService;

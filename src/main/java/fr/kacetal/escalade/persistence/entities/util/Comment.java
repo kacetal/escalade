@@ -1,4 +1,4 @@
-package fr.kacetal.escalade.persistence.entities;
+package fr.kacetal.escalade.persistence.entities.util;
 
 import lombok.Data;
 

@@ -1,12 +1,12 @@
 package fr.kacetal.escalade.controllers;
 
-import fr.kacetal.escalade.persistence.entities.Comment;
-import fr.kacetal.escalade.persistence.entities.Grade;
 import fr.kacetal.escalade.persistence.entities.Itinerary;
 import fr.kacetal.escalade.persistence.entities.Sector;
+import fr.kacetal.escalade.persistence.entities.util.Comment;
+import fr.kacetal.escalade.persistence.entities.util.Grade;
 import fr.kacetal.escalade.persistence.services.ItineraryService;
 import fr.kacetal.escalade.persistence.services.SectorService;
-import fr.kacetal.escalade.persistence.services.StorageService;
+import fr.kacetal.escalade.persistence.services.util.StorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

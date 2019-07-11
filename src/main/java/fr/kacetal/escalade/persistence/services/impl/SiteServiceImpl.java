@@ -5,8 +5,8 @@ import fr.kacetal.escalade.persistence.repository.SiteRepository;
 import fr.kacetal.escalade.persistence.services.SiteService;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class SiteServiceImpl implements SiteService {
@@ -19,14 +19,34 @@ public class SiteServiceImpl implements SiteService {
     
     @Override
     public Set<Site> findAll() {
-        Set<Site> sites = new HashSet<>();
-        siteRepository.findAll().forEach(sites::add);
-        return sites;
+        return new TreeSet<>(siteRepository.findAll());
     }
     
     @Override
     public Set<Site> findByName(String name) {
-        return new HashSet<>(siteRepository.findSitesByNameContainingIgnoreCase(name));
+        if ("".equals(name)) {
+            return findAll();
+        } else {
+            return new TreeSet<>(siteRepository.findSitesByNameContainingIgnoreCase(name));
+        }
+    }
+    
+    @Override
+    public Set<Site> findByCountry(String name) {
+        if ("".equals(name)) {
+            return findAll();
+        } else {
+            return new TreeSet<>(siteRepository.findSitesByCountryContainingIgnoreCase(name));
+        }
+    }
+    
+    @Override
+    public Set<Site> findByRegion(String name) {
+        if ("".equals(name)) {
+            return findAll();
+        } else {
+            return new TreeSet<>(siteRepository.findSitesByRegionContainingIgnoreCase(name));
+        }
     }
     
     @Override

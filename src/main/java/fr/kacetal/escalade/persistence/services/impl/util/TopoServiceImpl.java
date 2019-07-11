@@ -1,8 +1,8 @@
-package fr.kacetal.escalade.persistence.services.impl;
+package fr.kacetal.escalade.persistence.services.impl.util;
 
-import fr.kacetal.escalade.persistence.entities.Topo;
-import fr.kacetal.escalade.persistence.repository.TopoRepository;
-import fr.kacetal.escalade.persistence.services.TopoService;
+import fr.kacetal.escalade.persistence.entities.util.Topo;
+import fr.kacetal.escalade.persistence.repository.util.TopoRepository;
+import fr.kacetal.escalade.persistence.services.util.TopoService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
