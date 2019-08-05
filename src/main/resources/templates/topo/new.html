@@ -4,10 +4,9 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container">
-    <h4>Update sector</h4>
+    <h4>Add new topo</h4>
     <form method="post" th:action="@{/topos}" th:object="${topo}" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}"/>
-        <input type="hidden" th:field="*{imageName}"/>
         <div class="form-row">
             <div class="form-group col-md-4">
                 <div class="input-group">
@@ -51,7 +50,7 @@
                       placeholder="Enter description" th:field="*{description}"></textarea>
             <small id="descriptionHelp" class="form-text text-muted">Size maximal: 1000 characters</small>
         </div>
-        <button type="submit" class="btn btn-primary">Update sector</button>
+        <button type="submit" class="btn btn-primary">Add topo</button>
     </form>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>

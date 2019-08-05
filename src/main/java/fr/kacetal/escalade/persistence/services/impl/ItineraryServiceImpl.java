@@ -4,13 +4,20 @@ import fr.kacetal.escalade.persistence.entities.Itinerary;
 import fr.kacetal.escalade.persistence.entities.util.Grade;
 import fr.kacetal.escalade.persistence.repository.ItineraryRepository;
 import fr.kacetal.escalade.persistence.services.ItineraryService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
 @Service
 public class ItineraryServiceImpl implements ItineraryService {
+    
+    @Value("${search.all.results}")
+    private String ALL_RESULTS;
+    
+    private static final Set<Itinerary> EMPTY_SET = Collections.emptySet();
     
     private final ItineraryRepository itineraryRepository;
     
@@ -25,39 +32,41 @@ public class ItineraryServiceImpl implements ItineraryService {
     
     @Override
     public Set<Itinerary> findByName(String name) {
-        if ("".equals(name)) {
-            return findAll();
+        if (name.isBlank() || ALL_RESULTS.equals(name)) {
+            return nameBlancOrAll(name);
         }
         return itineraryRepository.findItinerariesByNameContainingIgnoreCase(name);
     }
     
     @Override
     public Set<Itinerary> findBySpit(String spit) {
-        if ("".equals(spit)) {
-            return findAll();
+        if (spit.isBlank() || ALL_RESULTS.equals(spit)) {
+            return nameBlancOrAll(spit);
         }
         return new TreeSet<>(itineraryRepository.findItinerariesBySpitContainingIgnoreCase(spit));
     }
     
     @Override
     public Set<Itinerary> findByHeight(Integer height) {
-        if (height == null) {
-            return findAll();
+        if (height < 0) {
+            return EMPTY_SET;
         }
         return new TreeSet<>(itineraryRepository.findItinerariesByHeight(height));
     }
     
     @Override
     public Set<Itinerary> findByNumberOfParts(Integer numberOfParts) {
-        if (numberOfParts == null) {
-            return findAll();
+        if (numberOfParts < 0) {
+            return EMPTY_SET;
         }
         return new TreeSet<>(itineraryRepository.findItinerariesByNumberOfParts(numberOfParts));
     }
     
     @Override
     public Set<Itinerary> findByGrade(Grade grade) {
-        if (grade == null) {
+        if (grade == Grade.EMPTY) {
+            return null;
+        } else if (grade == Grade.ALL) {
             return findAll();
         }
         return new TreeSet<>(itineraryRepository.findItinerariesByGrade(grade));
@@ -71,7 +80,7 @@ public class ItineraryServiceImpl implements ItineraryService {
     @Override
     public Set<Itinerary> findBySectorId(Long sectorId) {
         if (sectorId == null) {
-            return new TreeSet<>();
+            return EMPTY_SET;
         }
         return new TreeSet<>(itineraryRepository.findItinerariesBySectorId(sectorId));
     }
@@ -79,7 +88,7 @@ public class ItineraryServiceImpl implements ItineraryService {
     @Override
     public Set<Itinerary> findBySiteId(Long siteId) {
         if (siteId == null) {
-            return new TreeSet<>();
+            return EMPTY_SET;
         }
         return new TreeSet<>(itineraryRepository.findItinerariesBySiteId(siteId));
     }
@@ -92,5 +101,12 @@ public class ItineraryServiceImpl implements ItineraryService {
     @Override
     public void delete(Long id) {
         itineraryRepository.deleteById(id);
+    }
+    
+    private Set<Itinerary> nameBlancOrAll(String name) {
+        if (name.isBlank()) {
+            return null;
+        }
+        return findAll();
     }
 }

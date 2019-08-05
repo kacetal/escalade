@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
+    <h4>Search site</h4>
+    <h5> Character '*' for all positions</h5>
+    <div class="lead">
+        <form method="get" th:action="@{/search/sites}">
+            <div class="form-row row justify-content-around">
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Name</span>
+                        </div>
+                        <input id="name"
+                               class="form-control"
+                               type="text"
+                               name="name"
+                               maxlength="255"
+                               placeholder="Search by name"
+                               aria-describedby="nameHelp"
+                               th:value="${name}">
+                    </div>
+                    <small id="nameHelp" class="form-text text-muted">Size: 0 - 255 characters</small>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Country</span>
+                        </div>
+                        <input id="country"
+                               class="form-control"
+                               type="text"
+                               name="country"
+                               maxlength="255"
+                               placeholder="Search by country"
+                               aria-describedby="countryHelp"
+                               th:value="${country}">
+                    </div>
+                    <small id="countryHelp" class="form-text text-muted">Size: 0 - 255 characters</small>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Region</span>
+                        </div>
+                        <input id="region"
+                               class="form-control"
+                               type="text"
+                               name="region"
+                               maxlength="255"
+                               placeholder="Search by region"
+                               aria-describedby="regionHelp"
+                               th:value="${region}">
+                    </div>
+                    <small id="regionHelp" class="form-text text-muted">Size: 0 - 255 characters</small>
+                </div>
+                <div class="form-group col-md-2 row justify-content-center align-self-start">
+                    <button class="btn btn-outline-success" type="submit">Search site</button>
+                </div>
+            </div>
+
+        </form>
+        <div class="table-responsive-md">
+            <table class="table table-striped table-hover">
+                <thead class="thead">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>Region</th>
+                    <th>Description</th>
+                    <th># Sectors</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="clickable-row"
+                    th:each="site : ${sites}"
+                    th:data-href="${'/sites/view/' + site.id}">
+                    <td th:text="${site.id}"></td>
+                    <td th:text="${site.name}"></td>
+                    <td th:text="${site.country}"></td>
+                    <td th:text="${site.region}"></td>
+                    <td th:text="${site.description}"></td>
+                    <td th:text="${site.sectors.size()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".clickable-row").click(function () {
+            window.location = $(this).data("href");
+        });
+    });
+</script>
+</html>

@@ -27,34 +27,52 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{/sites/list}">
-                        Sites
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       href="#" id="itemsDropdown"
+                       role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Items
                     </a>
+                    <div class="dropdown-menu" aria-labelledby="itemsDropdown">
+                        <a class="dropdown-item" href="#" th:href="@{/sites/list}">Sites list</a>
+                        <a class="dropdown-item" href="#" th:href="@{/sites/new}">New site</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" th:href="@{/sectors/list}">Sectors list</a>
+                        <a class="dropdown-item" href="#" th:href="@{/sectors/new}">New sector</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" th:href="@{/itineraries/list}">Itineraries list</a>
+                        <a class="dropdown-item" href="#" th:href="@{/itineraries/new}">New itinerary</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{/sites/new}">
-                        Add Site
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       href="#" id="topoDropdown"
+                       role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Topos
                     </a>
+                    <div class="dropdown-menu" aria-labelledby="topoDropdown">
+                        <a class="dropdown-item" href="#" th:href="@{/topos/list}">Topos list</a>
+                        <a class="dropdown-item" href="#" th:href="@{/topos/new}">New topo</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{/sectors/list}">
-                        Sectors
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       href="#" id="searchDropdown"
+                       role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Search
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{/sectors/new}">
-                        Add Sector
-                    </a>
-                </li><li class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{/itineraries/list}">
-                        Itinerary
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{/itineraries/new}">
-                        Add Itinerary
-                    </a>
+                    <div class="dropdown-menu" aria-labelledby="searchDropdown">
+                        <a class="dropdown-item" href="#" th:href="@{/search/sites/}">Site</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" th:href="@{/search/sectors}">Sector</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" th:href="@{/search/itineraries}">Itinerary</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" th:href="@{/search/topos}">Topo</a>
+                    </div>
                 </li>
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">
                     <a class="nav-link" href="/login" th:href="@{/login}">

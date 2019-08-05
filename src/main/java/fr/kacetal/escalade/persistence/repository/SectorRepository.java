@@ -8,5 +8,5 @@ import java.util.Set;
 public interface SectorRepository extends JpaRepository<Sector, Long> {
     Set<Sector> findSectorsByNameContainingIgnoreCase(String name);
     
-    Set<Sector> findSectorsBySiteId(Long id);
+    Set<Sector> findSectorsBySiteNameContainingIgnoreCase(String siteName);
 }

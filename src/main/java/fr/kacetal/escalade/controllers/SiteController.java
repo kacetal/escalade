@@ -21,10 +21,11 @@ import java.util.TreeSet;
 @RequestMapping(path = "/sites")
 public class SiteController {
     
-    private static final String VIEW = "site/view";
-    private static final String LIST = "site/list";
-    private static final String UPDATE = "site/update";
-    private static final String NEW = "site/new";
+    private static final String TEMPLATE_DIR = "site";
+    private static final String VIEW = TEMPLATE_DIR + "/view";
+    private static final String LIST = TEMPLATE_DIR + "/list";
+    private static final String UPDATE = TEMPLATE_DIR + "/update";
+    private static final String NEW = TEMPLATE_DIR + "/new";
     
     @Value("${default.imagename}")
     private String defaultImageName;
@@ -38,7 +39,7 @@ public class SiteController {
     }
     
     // READ all sites
-    @GetMapping(path = {"/view", "/list", ""})
+    @GetMapping(path = {"/list", ""})
     public String list(Model model) {
         
         log.info("READ all sites");
@@ -73,20 +74,6 @@ public class SiteController {
         
         return VIEW;
     }
-    /*
-    //SEARCH sites by name
-    @GetMapping(path = "/search/{name}")
-    public String showByName(@PathVariable("name") String name, Model model) {
-        log.info("SEARCH sites by name : \"{}\"", name);
-        
-        List<Site> sites = siteService.findByName(name);
-        
-        model.addAttribute("sites", sites);
-        
-        log.info("No. of sites searched: {}", sites.size());
-        
-        return LIST;
-    }*/
     
     //UPDATE site by ID
     @GetMapping(value = "/update/{id}")

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
+    <h4>Search site</h4>
+    <h5> Character '*' for all positions</h5>
+    <div class="lead">
+        <form method="get" th:action="@{/search/itineraries}">
+            <div class="form-row row justify-content-between">
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            Height
+                        </span>
+                        </div>
+                        <input id="strHeight"
+                               class="form-control"
+                               aria-describedby="heightHelp"
+                               name="strHeight"
+                               min="1"
+                               max="100"
+                               step="1"
+                               type="number"
+                               th:value="${strHeight}">
+                    </div>
+                    <small id="heightHelp"
+                           class="form-text text-muted">
+                        Height 1 - 100 m
+                    </small>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Number of parts</span>
+                        </div>
+                        <input id="numberOfParts"
+                               class="form-control"
+                               aria-describedby="numberHelp"
+                               type="number"
+                               name="strNumberOfParts"
+                               min="1"
+                               max="20"
+                               step="1"
+                               th:value="${strNumberOfParts}">
+                    </div>
+                    <small id="numberHelp"
+                           class="form-text text-muted">
+                        Number of parts 1 - 20
+                    </small>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Name of sector</span>
+                        </div>
+                        <select id="sectorSelect"
+                                class="custom-select"
+                                aria-describedby="sectorNameHelp"
+                                name="sectorName">
+                            <option th:each="sector : ${sectors}"
+                                    th:value="${sector.name}"
+                                    th:text="${sector.name}"
+                                    th:selected="${sector.name.equals(sectorName)}"></option>
+                            <option value=''>Not search</option>
+                            <option value='*'>All sectors</option>
+                        </select>
+                    </div>
+                    <small id="sectorNameHelp" class="form-text text-muted">Choice name of the sector</small>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            Grade
+                        </span>
+                        </div>
+                        <select class="custom-select"
+                                name="strGrade">
+                            <option th:each="grade : ${grades}"
+                                    th:value="${grade.name()}"
+                                    th:text="${grade}"
+                                    th:selected="${grade.name().equals(strGrade)}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row row justify-content-between">
+                <div class="form-group col-md-5">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Name</span>
+                        </div>
+                        <input id="name"
+                               class="form-control"
+                               aria-describedby="nameHelp"
+                               type="text"
+                               name="name"
+                               maxlength="255"
+                               placeholder="Search by name"
+                               th:value="${name}">
+                    </div>
+                    <small id="nameHelp" class="form-text text-muted">Size: 0 - 255 characters</small>
+                </div>
+                <div class="form-group col-md-5">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Spit</span>
+                        </div>
+                        <input id="spit"
+                               class="form-control"
+                               type="text"
+                               name="spit"
+                               maxlength="255"
+                               placeholder="Search by spit"
+                               aria-describedby="spitHelp"
+                               th:value="${spit}">
+                    </div>
+                    <small id="spitHelp" class="form-text text-muted">Size: 0 - 255 characters</small>
+                </div>
+                <div class="form-group col-md-2 row justify-content-center align-self-start">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="table-responsive-md">
+            <table class="table table-striped">
+                <thead class="thead">
+                <tr>
+                    <th>Sector</th>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th>Height</th>
+                    <th>Number of parts</th>
+                    <th>Spit</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="clickable-row"
+                    th:each="itinerary : ${itineraries}"
+                    th:data-href="${'/sectors/view/' + itinerary.id}">
+                    <td th:text="${itinerary.sector.name}"></td>
+                    <td th:text="${itinerary.name}"></td>
+                    <td th:text="${itinerary.grade}"></td>
+                    <td th:text="${itinerary.height}"></td>
+                    <td th:text="${itinerary.numberOfParts}"></td>
+                    <td th:text="${itinerary.spit}"></td>
+                    <td th:text="${itinerary.getShortDescription(50)}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".clickable-row").click(function () {
+            window.location = $(this).data("href");
+        });
+    });
+</script>
+</html>

@@ -1,7 +1,10 @@
-package fr.kacetal.escalade.controllers.util;
+package fr.kacetal.escalade.controllers;
 
+import fr.kacetal.escalade.persistence.entities.Site;
+import fr.kacetal.escalade.persistence.entities.Topo;
 import fr.kacetal.escalade.persistence.entities.util.Comment;
-import fr.kacetal.escalade.persistence.entities.util.Topo;
+import fr.kacetal.escalade.persistence.entities.util.Reservation;
+import fr.kacetal.escalade.persistence.services.SiteService;
 import fr.kacetal.escalade.persistence.services.util.StorageService;
 import fr.kacetal.escalade.persistence.services.util.TopoService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,27 +24,30 @@ import java.util.TreeSet;
 @RequestMapping(path = "/topos")
 public class TopoController {
     
-    private static final String VIEW = "topo/view";
-    private static final String LIST = "topo/list";
-    private static final String UPDATE = "topo/update";
-    private static final String NEW = "topo/new";
+    private static final String TEMPLATE_DIR = "topo";
+    private static final String VIEW = TEMPLATE_DIR + "/view";
+    private static final String LIST = TEMPLATE_DIR + "/list";
+    private static final String UPDATE = TEMPLATE_DIR + "/update";
+    private static final String NEW = TEMPLATE_DIR + "/new";
     
     @Value("${default.imagename}")
     private String defaultImageName;
     
     private final TopoService topoService;
+    private final SiteService siteService;
     private final StorageService storageService;
     
     @Value("${upload.path}")
     private String uploadPath;
     
-    public TopoController(TopoService topoService, StorageService storageService) {
+    public TopoController(TopoService topoService, SiteService siteService, StorageService storageService) {
         this.topoService = topoService;
+        this.siteService = siteService;
         this.storageService = storageService;
     }
     
     //READ all topos
-    @GetMapping(path = {"/view", "/list", ""})
+    @GetMapping(path = {"/list", "view", ""})
     public String list(Model model) {
         
         log.info("READ all topos");
@@ -69,28 +75,15 @@ public class TopoController {
         log.info("Site in the topo: {}", topo.getSite());
         
         TreeSet<Comment> comments = new TreeSet<>(topo.getComments());
-        
+        TreeSet<Reservation> reservations = new TreeSet<>(topo.getReservations());
+    
         model.addAttribute("topo", topo);
+        model.addAttribute("reservations", reservations);
         model.addAttribute("comment", new Comment());
         model.addAttribute("comments", comments);
         
         return VIEW;
     }
-    
-    /*
-    //SEARCH sites by name
-    @GetMapping(path = "/search/{name}")
-    public String showByName(@PathVariable("name") String name, Model model) {
-        log.info("SEARCH sites by name : \"{}\"", name);
-        
-        List<Site> sites = siteService.findByName(name);
-        
-        model.addAttribute("sites", sites);
-        
-        log.info("No. of sites searched: {}", sites.size());
-        
-        return LIST;
-    }*/
     
     //UPDATE topo by ID
     @GetMapping(value = "/update/{id}")
@@ -98,7 +91,9 @@ public class TopoController {
         log.info("UPDATE topo by ID : {}", id);
     
         Topo topo = topoService.findById(id);
+        Set<Site> sites = siteService.findAll();
     
+        model.addAttribute("sites", sites);
         model.addAttribute("topo", topo);
         
         return UPDATE;
@@ -109,6 +104,9 @@ public class TopoController {
     public String createForm(Model model) {
         log.info("CREATE new topo");
         
+        Set<Site> sites = siteService.findAll();
+    
+        model.addAttribute("sites", sites);
         model.addAttribute("topo", new Topo());
         
         return NEW;
@@ -129,7 +127,7 @@ public class TopoController {
         
         log.info("SAVE topo:\n{}", topo);
         
-        return "redirect:topos/view" + topo.getId();
+        return "redirect:topos/view/" + topo.getId();
     }
     
     //DELETE topo by ID
@@ -139,7 +137,7 @@ public class TopoController {
     
         topoService.delete(id);
         
-        return "redirect:topos/list";
+        return "redirect:/topos/view";
     }
     
     private String selectImageName(String imageName, String fileImageName) {

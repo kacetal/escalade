@@ -1,14 +1,16 @@
-package fr.kacetal.escalade.persistence.entities.util;
+package fr.kacetal.escalade.persistence.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.kacetal.escalade.persistence.entities.Site;
+import fr.kacetal.escalade.persistence.entities.util.Comment;
+import fr.kacetal.escalade.persistence.entities.util.Reservation;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.TreeSet;
 
 import static javax.persistence.CascadeType.ALL;
@@ -46,10 +48,7 @@ public class Topo implements Comparable<Topo> {
     @JsonProperty("reservations")
     private Set<Reservation> reservations = new TreeSet<>();
     
-    @OneToOne(
-            orphanRemoval = true,
-            fetch = EAGER,
-            cascade = ALL)
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "site_id")
     private Site site;
     
@@ -74,11 +73,25 @@ public class Topo implements Comparable<Topo> {
         Topo topo = (Topo) o;
         return id.equals(topo.id) &&
                 name.equals(topo.name) &&
-                description.equals(topo.description);
+                description.equals(topo.description) &&
+                site.equals(topo.site);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description);
+        return Objects.hash(id, name, description, site);
+    }
+    
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Topo.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .add("description='" + description + "'")
+                .add("imageName='" + imageName + "'")
+                .add("comments=" + comments.size())
+                .add("reservations=" + reservations.size())
+                .add("site=" + site.getName())
+                .toString();
     }
 }

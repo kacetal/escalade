@@ -23,10 +23,11 @@ import java.util.TreeSet;
 @RequestMapping("/itineraries")
 public class ItineraryController {
     
-    private static final String VIEW = "itinerary/view";
-    private static final String LIST = "itinerary/list";
-    private static final String UPDATE = "itinerary/update";
-    private static final String NEW = "itinerary/new";
+    private static final String TEMPLATE_DIR = "itinerary";
+    private static final String VIEW = TEMPLATE_DIR + "/view";
+    private static final String LIST = TEMPLATE_DIR + "/list";
+    private static final String UPDATE = TEMPLATE_DIR + "/update";
+    private static final String NEW = TEMPLATE_DIR + "/new";
     
     @Value("${default.imagename}")
     private String defaultImageName;

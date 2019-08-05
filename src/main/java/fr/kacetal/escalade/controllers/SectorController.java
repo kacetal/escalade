@@ -22,10 +22,11 @@ import java.util.TreeSet;
 @RequestMapping("/sectors")
 public class SectorController {
     
-    private static final String VIEW = "sector/view";
-    private static final String LIST = "sector/list";
-    private static final String UPDATE = "sector/update";
-    private static final String NEW = "sector/new";
+    private static final String TEMPLATE_DIR = "sector";
+    private static final String VIEW = TEMPLATE_DIR + "/view";
+    private static final String LIST = TEMPLATE_DIR + "/list";
+    private static final String UPDATE = TEMPLATE_DIR + "/update";
+    private static final String NEW = TEMPLATE_DIR + "/new";
     
     @Value("${default.imagename}")
     private String defaultImageName;
@@ -74,21 +75,6 @@ public class SectorController {
         
         return VIEW;
     }
-    /*
-    //SEARCH sectors by Name
-    @GetMapping(path = "/search", params = {"name"})
-    public String showByName(@RequestParam("name") String name, Model model) {
-        log.info("READ list of sectors by name : \"{}\"", name);
-        
-        List<Sector> sectors = sectorService.findByName(name);
-        
-        model.addAttribute("sectors", sectors);
-        
-        log.info("No. of sectors: {}", sectors.size());
-        
-        return LIST;
-    }*/
-    
     //UPDATE sector by ID
     @GetMapping(value = "/update/{id}")
     public String updateForm(@PathVariable("id") Long id, Model model) {

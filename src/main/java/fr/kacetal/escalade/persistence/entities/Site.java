@@ -1,7 +1,6 @@
 package fr.kacetal.escalade.persistence.entities;
 
 import fr.kacetal.escalade.persistence.entities.util.Comment;
-import fr.kacetal.escalade.persistence.entities.util.Topo;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -37,12 +36,11 @@ public class Site implements Comparable<Site> {
     @Column(length = 1000)
     private String description;
     
-    @OneToOne(
+    @OneToMany(
             mappedBy = "site",
-            cascade = ALL,
             fetch = EAGER,
-            optional = false)
-    private Topo topo;
+            cascade = {REFRESH, REMOVE})
+    private Set<Topo> topos = new TreeSet<>();
     
     @OneToMany(
             mappedBy = "site",
@@ -98,8 +96,9 @@ public class Site implements Comparable<Site> {
                 .add("country='" + country + "'")
                 .add("region='" + region + "'")
                 .add("description='" + description + "'")
-                .add("nmbrOfSectors=" + sectors.size())
-                .add("nmbrOfComments=" + comments.size())
+                .add("topos=" + topos.size())
+                .add("sectors=" + sectors.size())
+                .add("comments=" + comments.size())
                 .add("imageName='" + imageName + "'")
                 .toString();
     }

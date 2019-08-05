@@ -1,12 +1,13 @@
 package fr.kacetal.escalade.persistence.services.impl.util;
 
-import fr.kacetal.escalade.persistence.entities.util.Topo;
+import fr.kacetal.escalade.persistence.entities.Topo;
 import fr.kacetal.escalade.persistence.repository.util.TopoRepository;
 import fr.kacetal.escalade.persistence.services.util.TopoService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class TopoServiceImpl implements TopoService {
@@ -19,9 +20,7 @@ public class TopoServiceImpl implements TopoService {
     
     @Override
     public Set<Topo> findAll() {
-        Set<Topo> topos = new HashSet<>();
-        topoRepository.findAll().forEach(topos::add);
-        return topos;
+        return new TreeSet<>(topoRepository.findAll());
     }
     
     @Override

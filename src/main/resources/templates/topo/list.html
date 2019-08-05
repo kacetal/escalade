@@ -5,38 +5,32 @@
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container">
     <div class="text-left">
-        <h4 th:text="${'Sites: ' + sites.size()}">Sites: </h4>
+        <h4 th:text="${'Topos: ' + topos.size()}"></h4>
     </div>
     <div class='row'>
-        <div class='mb-5 col-lg-4 col-sm-6 col-12' th:each="site : ${sites}">
+        <div class='mb-5 col-lg-4 col-sm-6 col-12' th:each="topo : ${topos}">
             <div class='card x-shadow-fade-in-lg h-100'>
                 <div class='bg-secondary card-header d-flex flex-column py-2 text-white'>
                     <div class='d-flex'>
-                        <div class='ml-auto my-auto' th:text="'Number of sectors: ' + ${site.sectors.size()}">
-                            Number of sectors
-                        </div>
+                        <div class='ml-auto my-auto' th:text="'Days reserved: ' + ${topo.getReservations().size()}"></div>
                     </div>
                 </div>
                 <div class='card-body d-flex flex-column'>
                     <img class="card-img-top"
                          width="50px"
                          style="max-height: 200px"
-                         th:src="'img/' + ${site.imageName}"/>
+                         th:src="'/img/' + ${topo.imageName}"/>
                     <div class='d-flex flex-column'>
-                        <h4 class='mr-1' th:text="${site.name}">
-                            Site name
-                        </h4>
-                        <h5 class='mr-1' th:text="${site.country} + ' / ' + ${site.region}">
-                            Site country / region
-                        </h5>
+                        <h4 class='mr-1' th:text="${'Topo: ' + topo.name}"></h4>
+                        <h5 class='mr-1' th:text="${'Site: ' + topo.site.name}"></h5>
                     </div>
-                    <div class='text-muted mb-2' th:text="${site.getShortDescription(200)}">
+                    <div class='text-muted mb-2' th:text="${topo.getShortDescription(200)}">
                         Description
                     </div>
                     <div class='mt-auto d-flex'>
                         <div class='ml-auto'>
-                            <a class="x-link-without-decoration stretched-link" th:href="${'/sites/view/' + site.id}">
-                                View
+                            <a class="x-link-without-decoration stretched-link"
+                               th:href="${'/topos/view/' + topo.id}">
                             </a>
                         </div>
                     </div>

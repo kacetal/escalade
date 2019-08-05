@@ -1,6 +1,8 @@
 package fr.kacetal.escalade.persistence.entities.util;
 
 public enum Grade {
+    EMPTY("EMPTY GRADE"),
+    ALL("ALL GRADES"),
     _1("1"),
     _2("2"),
     _3("3"),

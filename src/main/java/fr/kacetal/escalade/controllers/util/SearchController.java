@@ -14,15 +14,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
 @RequestMapping("/search")
 public class SearchController {
+    
+    private static final String TEMPLATE_DIR = "search";
+    private static final String SITES = TEMPLATE_DIR + "/sites";
+    private static final String SECTORS = TEMPLATE_DIR + "/sectors";
+    private static final String ITINERARIES = TEMPLATE_DIR + "/itineraries";
     
     private final SiteService siteService;
     private final SectorService sectorService;
@@ -36,100 +39,144 @@ public class SearchController {
         this.itineraryService = itineraryService;
     }
     
-    @GetMapping("/sites/")
-    public String searchSite(
+    @GetMapping("/sites")
+    public String sitesSearch(
             Model model,
             @RequestParam(value = "name", defaultValue = "", required = false) String name,
             @RequestParam(value = "country", defaultValue = "", required = false) String country,
             @RequestParam(value = "region", defaultValue = "", required = false) String region
     ) {
-        Set<Site> sites = new HashSet<>();
+        Set<Site> sitesByName = siteService.findByName(name);
+        Set<Site> sitesByCountry = siteService.findByCountry(country);
+        Set<Site> sitesByRegion = siteService.findByRegion(region);
         
-        siteService.findByName(name).forEach(sites::add);
-        siteService.findByCountry(country).forEach(sites::add);
-        siteService.findByRegion(region).forEach(sites::add);
-        
+        Set<Site> sites = getIntersectedCollection(sitesByName, sitesByCountry, sitesByRegion);
+        //form attributes
+        model.addAttribute("name", name);
+        model.addAttribute("country", country);
+        model.addAttribute("region", region);
+        //result
         model.addAttribute("sites", sites);
         
-        return null;
+        return SITES;
     }
     
-    @GetMapping("/sectors/")
-    public String searchSector(
+    
+    @GetMapping("/sectors")
+    public String sectorsSearch(
             Model model,
             @RequestParam(value = "name", defaultValue = "", required = false) String name,
-            @RequestParam(value = "siteId", required = false) String strSiteId
+            @RequestParam(value = "siteName", defaultValue = "", required = false) String siteName
     ) {
-        Set<Sector> sectors = new TreeSet<>();
+        Set<Sector> sectorsByName = sectorService.findByName(name);
+        Set<Sector> sectorsBySiteName = sectorService.findBySiteName(siteName);
         
-        Long siteId = parseLong(strSiteId);
-        
-        sectorService.findByName(name).forEach(sectors::add);
-        sectorService.findBySiteId(siteId).forEach(sectors::add);
+        Set<Sector> sectors = getIntersectedCollection(sectorsByName, sectorsBySiteName);
         
         Set<Site> sites = siteService.findAll();
-        
+        //form attributes
+        model.addAttribute("name", name);
+        model.addAttribute("siteName", siteName);
         model.addAttribute("sectors", sectors);
+        //result
         model.addAttribute("sites", sites);
         
-        return null;
+        return SECTORS;
     }
     
-    @GetMapping("/itineraries/")
-    public String searchItinerary(
+    @GetMapping("/itineraries")
+    public String itinerariesSearch(
             Model model,
             @RequestParam(value = "name", defaultValue = "", required = false) String name,
             @RequestParam(value = "spit", defaultValue = "", required = false) String spit,
-            @RequestParam(value = "height", required = false) String strHeight,
-            @RequestParam(value = "numberOfParts", required = false) String strNumberOfParts,
-            @RequestParam(value = "grade", required = false) String grade,
-            @RequestParam(value = "sectorId", required = false) String strSectorId,
-            @RequestParam(value = "siteId", required = false) String strSiteId) {
-        
-        TreeSet<Itinerary> itineraries = new TreeSet<>();
-        
+            @RequestParam(value = "strHeight", defaultValue = "", required = false) String strHeight,
+            @RequestParam(value = "strNumberOfParts", defaultValue = "", required = false) String strNumberOfParts,
+            @RequestParam(value = "strGrade", defaultValue = "", required = false) String strGrade,
+            @RequestParam(value = "sectorName", defaultValue = "", required = false) String sectorName
+    ) {
         Integer height = parseInteger(strHeight);
         Integer numberOfParts = parseInteger(strNumberOfParts);
-        Long sectorId = parseLong(strSectorId);
-        Long siteId = parseLong(strSiteId);
+        Grade grade = parseGrade(strGrade);
         
-        itineraryService.findByName(name).forEach(itineraries::add);
-        itineraryService.findBySpit(spit).forEach(itineraries::add);
-        itineraryService.findByHeight(height).forEach(itineraries::add);
-        itineraryService.findByNumberOfParts(numberOfParts).forEach(itineraries::add);
-        itineraryService.findByGrade(Grade.valueOf(grade)).forEach(itineraries::add);
-        itineraryService.findBySectorId(sectorId).forEach(itineraries::add);
-        itineraryService.findBySiteId(siteId).forEach(itineraries::add);
+        Set<Itinerary> itinerariesByName = itineraryService.findByName(name);
+        Set<Itinerary> itinerariesBySpit = itineraryService.findBySpit(spit);
+        Set<Itinerary> itinerariesByHeight = itineraryService.findByHeight(height);
+        Set<Itinerary> itinerariesByNumberOfParts = itineraryService.findByNumberOfParts(numberOfParts);
+        Set<Itinerary> itinerariesByGrade = itineraryService.findByGrade(grade);
+        Set<Itinerary> itinerariesBySector = null;
+        
+        Optional<Set<Sector>> OptSectorsByName = Optional.ofNullable(sectorService.findByName(sectorName));
+        if (OptSectorsByName.isPresent()) {
+            itinerariesBySector = OptSectorsByName.get()
+                    .stream()
+                    .map(Sector::getId)
+                    .map(itineraryService::findBySectorId)
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toSet());
+        }
+    
+        Set<Itinerary> itineraries = getIntersectedCollection(
+                itinerariesByName,
+                itinerariesBySpit,
+                itinerariesByHeight,
+                itinerariesByNumberOfParts,
+                itinerariesByGrade,
+                itinerariesBySector);
         
         Set<Sector> sectors = sectorService.findAll();
         Set<Site> sites = siteService.findAll();
         
-        model.addAttribute("itineraries", itineraries);
+        //form attributes
+        model.addAttribute("name", name);
+        model.addAttribute("spit", spit);
+        model.addAttribute("strHeight", strHeight);
+        model.addAttribute("strNumberOfParts", strNumberOfParts);
+        model.addAttribute("strGrade", strGrade);
+        model.addAttribute("grades", Grade.values());
+        model.addAttribute("sectorName", sectorName);
+        
         model.addAttribute("sectors", sectors);
         model.addAttribute("sites", sites);
+        //result
+        model.addAttribute("itineraries", itineraries);
         
-        return null;
+        return ITINERARIES;
     }
     
-    private Long parseLong(String strLong) {
-        if (Objects.nonNull(strLong)) {
-            try {
-                return Long.valueOf(strLong);
-            } catch (NumberFormatException e) {
-                log.error("Number for parsing is not a number or null", e);
-            }
-        }
-        return null;
-    }
-    
-    private Integer parseInteger(String strInteger) {
-        if (Objects.nonNull(strInteger)) {
+    private Integer parseInteger(final String strInteger) {
+        if (strInteger.matches("[+-]?\\d+")) {
             try {
                 return Integer.valueOf(strInteger);
             } catch (NumberFormatException e) {
-                log.error("Number for parsing is not a number or null", e);
+                log.warn("The string '{}' for parsing is not a correct number", strInteger);
+                log.warn("NumberFormatException:", e);
             }
+        } else {
+            log.warn("The string '{}' for parsing is not a correct number", strInteger);
         }
-        return null;
+        return -1;
+    }
+    
+    private Grade parseGrade(final String strGrade) {
+        if ("-1".equals(strGrade)) {
+            return Grade.EMPTY;
+        }
+        try {
+            return Grade.valueOf(strGrade);
+        } catch (IllegalArgumentException e) {
+            log.warn("The string '{}' for parsing is not a correct Grade name", strGrade);
+            log.warn("IllegalArgumentException:", e);
+            return Grade.EMPTY;
+        }
+    }
+    
+    @SafeVarargs
+    private <T> Set<T> getIntersectedCollection(final Set<T>... collections) {
+        return Arrays.stream(collections)
+                .filter(Objects::nonNull)
+                .reduce((x, y) -> {
+                    x.retainAll(y);
+                    return x;
+                }).orElse(Collections.emptySet());
     }
 }
