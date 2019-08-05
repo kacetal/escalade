@@ -4,12 +4,12 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container">
-    <h4>Search site</h4>
+    <h4>Search itinerary</h4>
     <h5> Character '*' for all positions</h5>
     <div class="lead">
         <form method="get" th:action="@{/search/itineraries}">
             <div class="form-row row justify-content-between">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     <div class="input-group">
                         <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -31,7 +31,7 @@
                         Height 1 - 100 m
                     </small>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Number of parts</span>
@@ -51,6 +51,56 @@
                         Number of parts 1 - 20
                     </small>
                 </div>
+                <div class="form-group col-md-4">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            Grade
+                        </span>
+                        </div>
+                        <select class="custom-select"
+                                name="strGrade">
+                            <option th:each="grade : ${grades}"
+                                    th:value="${grade.name()}"
+                                    th:text="${grade}"
+                                    th:selected="${grade.name().equals(strGrade)}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row row justify-content-between">
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Name</span>
+                        </div>
+                        <input id="name"
+                               class="form-control"
+                               aria-describedby="nameHelp"
+                               type="text"
+                               name="name"
+                               maxlength="255"
+                               placeholder="Search by name"
+                               th:value="${name}">
+                    </div>
+                    <small id="nameHelp" class="form-text text-muted">Size: 0 - 255 characters</small>
+                </div>
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Spit</span>
+                        </div>
+                        <input id="spit"
+                               class="form-control"
+                               type="text"
+                               name="spit"
+                               maxlength="255"
+                               placeholder="Search by spit"
+                               aria-describedby="spitHelp"
+                               th:value="${spit}">
+                    </div>
+                    <small id="spitHelp" class="form-text text-muted">Size: 0 - 255 characters</small>
+                </div>
                 <div class="form-group col-md-3">
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -69,56 +119,6 @@
                         </select>
                     </div>
                     <small id="sectorNameHelp" class="form-text text-muted">Choice name of the sector</small>
-                </div>
-                <div class="form-group col-md-3">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            Grade
-                        </span>
-                        </div>
-                        <select class="custom-select"
-                                name="strGrade">
-                            <option th:each="grade : ${grades}"
-                                    th:value="${grade.name()}"
-                                    th:text="${grade}"
-                                    th:selected="${grade.name().equals(strGrade)}"></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row row justify-content-between">
-                <div class="form-group col-md-5">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Name</span>
-                        </div>
-                        <input id="name"
-                               class="form-control"
-                               aria-describedby="nameHelp"
-                               type="text"
-                               name="name"
-                               maxlength="255"
-                               placeholder="Search by name"
-                               th:value="${name}">
-                    </div>
-                    <small id="nameHelp" class="form-text text-muted">Size: 0 - 255 characters</small>
-                </div>
-                <div class="form-group col-md-5">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Spit</span>
-                        </div>
-                        <input id="spit"
-                               class="form-control"
-                               type="text"
-                               name="spit"
-                               maxlength="255"
-                               placeholder="Search by spit"
-                               aria-describedby="spitHelp"
-                               th:value="${spit}">
-                    </div>
-                    <small id="spitHelp" class="form-text text-muted">Size: 0 - 255 characters</small>
                 </div>
                 <div class="form-group col-md-2 row justify-content-center align-self-start">
                     <button class="btn btn-outline-success" type="submit">Search</button>

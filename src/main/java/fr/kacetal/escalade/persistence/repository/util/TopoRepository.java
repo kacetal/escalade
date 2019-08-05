@@ -7,4 +7,7 @@ import java.util.Set;
 
 public interface TopoRepository extends JpaRepository<Topo, Long> {
     Set<Topo> findToposByNameContainsIgnoreCase(String name);
+    
+    Set<Topo> findToposBySiteNameContainingIgnoreCase(String siteName);
+    
 }

@@ -3,10 +3,12 @@ package fr.kacetal.escalade.controllers.util;
 import fr.kacetal.escalade.persistence.entities.Itinerary;
 import fr.kacetal.escalade.persistence.entities.Sector;
 import fr.kacetal.escalade.persistence.entities.Site;
+import fr.kacetal.escalade.persistence.entities.Topo;
 import fr.kacetal.escalade.persistence.entities.util.Grade;
 import fr.kacetal.escalade.persistence.services.ItineraryService;
 import fr.kacetal.escalade.persistence.services.SectorService;
 import fr.kacetal.escalade.persistence.services.SiteService;
+import fr.kacetal.escalade.persistence.services.util.TopoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,17 +28,20 @@ public class SearchController {
     private static final String SITES = TEMPLATE_DIR + "/sites";
     private static final String SECTORS = TEMPLATE_DIR + "/sectors";
     private static final String ITINERARIES = TEMPLATE_DIR + "/itineraries";
+    private static final String TOPOS = TEMPLATE_DIR + "/topos";
     
     private final SiteService siteService;
     private final SectorService sectorService;
     private final ItineraryService itineraryService;
+    private final TopoService topoService;
     
     public SearchController(SiteService siteService,
                             SectorService sectorService,
-                            ItineraryService itineraryService) {
+                            ItineraryService itineraryService, TopoService topoService) {
         this.siteService = siteService;
         this.sectorService = sectorService;
         this.itineraryService = itineraryService;
+        this.topoService = topoService;
     }
     
     @GetMapping("/sites")
@@ -141,6 +146,27 @@ public class SearchController {
         model.addAttribute("itineraries", itineraries);
         
         return ITINERARIES;
+    }
+    
+    @GetMapping("/topos")
+    public String toposSearch(
+            Model model,
+            @RequestParam(value = "name", defaultValue = "", required = false) String name,
+            @RequestParam(value = "siteName", defaultValue = "", required = false) String siteName
+    ) {
+        Set<Topo> toposByName = topoService.findByName(name);
+        Set<Topo> toposBySiteName = topoService.findBySiteName(siteName);
+    
+        Set<Topo> topos = getIntersectedCollection(toposByName, toposBySiteName);
+    
+        Set<Site> sites = siteService.findAll();
+        //form attributes
+        model.addAttribute("name", name);
+        model.addAttribute("siteName", siteName);
+        model.addAttribute("topos", topos);
+        model.addAttribute("sites", sites);
+        
+        return TOPOS;
     }
     
     private Integer parseInteger(final String strInteger) {
