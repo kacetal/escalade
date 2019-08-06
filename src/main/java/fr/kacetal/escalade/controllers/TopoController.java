@@ -3,7 +3,6 @@ package fr.kacetal.escalade.controllers;
 import fr.kacetal.escalade.persistence.entities.Site;
 import fr.kacetal.escalade.persistence.entities.Topo;
 import fr.kacetal.escalade.persistence.entities.util.Comment;
-import fr.kacetal.escalade.persistence.entities.util.Reservation;
 import fr.kacetal.escalade.persistence.services.SiteService;
 import fr.kacetal.escalade.persistence.services.util.StorageService;
 import fr.kacetal.escalade.persistence.services.util.TopoService;
@@ -75,10 +74,8 @@ public class TopoController {
         log.info("Site in the topo: {}", topo.getSite());
         
         TreeSet<Comment> comments = new TreeSet<>(topo.getComments());
-        TreeSet<Reservation> reservations = new TreeSet<>(topo.getReservations());
     
         model.addAttribute("topo", topo);
-        model.addAttribute("reservations", reservations);
         model.addAttribute("comment", new Comment());
         model.addAttribute("comments", comments);
         
@@ -127,7 +124,7 @@ public class TopoController {
         
         log.info("SAVE topo:\n{}", topo);
         
-        return "redirect:topos/view/" + topo.getId();
+        return "redirect:/topos/view/" + topo.getId();
     }
     
     //DELETE topo by ID

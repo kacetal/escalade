@@ -4,7 +4,7 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="container">
-    <h4>Update sector</h4>
+    <h4>Update topo</h4>
     <form method="post" th:action="@{/topos}" th:object="${topo}" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}"/>
         <input type="hidden" th:field="*{imageName}"/>

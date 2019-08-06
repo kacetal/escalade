@@ -5,6 +5,8 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 @Data
 @Entity
@@ -24,5 +26,28 @@ public class Reservation implements Comparable<Reservation> {
     @Override
     public int compareTo(Reservation reservation) {
         return this.reservationDate.compareTo(reservation.getReservationDate());
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reservation that = (Reservation) o;
+        return client.equals(that.client) &&
+                reservationDate.equals(that.reservationDate);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(client, reservationDate);
+    }
+    
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Reservation.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("client='" + client + "'")
+                .add("reservationDate=" + reservationDate)
+                .toString();
     }
 }
