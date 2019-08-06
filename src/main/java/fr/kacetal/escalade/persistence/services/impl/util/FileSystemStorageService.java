@@ -10,14 +10,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Slf4j
 @Service
 public class FileSystemStorageService implements StorageService {
     
-    @Value("${upload.path}")
-    private Path uploadPath;
+//    @Value("${upload.path}")
+    private Path uploadPath = Paths.get("/static/images/");
     
     @Value("${default.imagename}")
     private String defaultImageName;
