@@ -74,24 +74,24 @@
                         <a class="dropdown-item" href="#" th:href="@{/search/topos}">Topo</a>
                     </div>
                 </li>
-<!--                <li th:if="${#authorization.expression('!isAuthenticated()')}">-->
-<!--                    <a class="nav-link" href="/login" th:href="@{/login}">-->
-<!--                        <i class="fas fa-sign-in-alt"></i>-->
-<!--                        Log in-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--                <li th:if="${#authorization.expression('isAuthenticated()')}">-->
-<!--                    <a class="nav-link" href="/logout" th:href="@{#}" onclick="$('#form').submit();">-->
-<!--                        <i class="fas fa-sign-out-alt"></i>-->
-<!--                        Logout-->
-<!--                    </a>-->
-<!--                    <form style="visibility: hidden"-->
-<!--                          id="form"-->
-<!--                          method="post"-->
-<!--                          action="#"-->
-<!--                          th:action="@{/logout}">-->
-<!--                    </form>-->
-<!--                </li>-->
+                <li th:if="${#authorization.expression('!isAuthenticated()')}">
+                    <a class="nav-link" href="/login" th:href="@{/login}">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Log in
+                    </a>
+                </li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a class="nav-link" href="/logout" th:href="@{#}" onclick="$('#form').submit();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                    <form style="visibility: hidden"
+                          id="form"
+                          method="post"
+                          action="#"
+                          th:action="@{/logout}">
+                    </form>
+                </li>
             </ul>
         </div>
     </nav>
