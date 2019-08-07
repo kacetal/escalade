@@ -5,6 +5,7 @@ Password: user
 ## DB
 1. cd docker/
 2. docker-compose up
+3. SQL script with test data 'escalade_public_comment.sql'
 
 ## Deploy
 1. git clone https://github.com/kacetal/escalade.git
