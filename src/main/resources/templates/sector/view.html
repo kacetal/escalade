@@ -47,9 +47,9 @@
                     <td th:text="${itinerary.numberOfParts}"></td>
                     <td th:text="${itinerary.description}"></td>
                     <td th:text="${itinerary.imageName}"></td>
-                    <td><a class="btn btn-outline-info" th:href="${'/itineraries/view/' + sector.id}">View</a></td>
-                    <td><a class="btn btn-outline-secondary" th:href="${'/itineraries/update/' + sector.id}">Edit</a></td>
-                    <td><a class="btn btn-outline-danger" th:href="${'/itineraries/delete/' + sector.id}">Delete</a></td>
+                    <td><a class="btn btn-outline-info" th:href="${'/itineraries/view/' + itinerary.id}">View</a></td>
+                    <td><a class="btn btn-outline-secondary" th:href="${'/itineraries/update/' + itinerary.id}">Edit</a></td>
+                    <td><a class="btn btn-outline-danger" th:href="${'/itineraries/delete/' + itinerary.id}">Delete</a></td>
                 </tr>
                 </tbody>
             </table>

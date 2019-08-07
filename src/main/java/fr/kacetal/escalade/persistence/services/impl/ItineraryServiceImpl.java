@@ -49,7 +49,7 @@ public class ItineraryServiceImpl implements ItineraryService {
     @Override
     public Set<Itinerary> findByHeight(Integer height) {
         if (height < 0) {
-            return EMPTY_SET;
+            return null;
         }
         return new TreeSet<>(itineraryRepository.findItinerariesByHeight(height));
     }
@@ -57,7 +57,7 @@ public class ItineraryServiceImpl implements ItineraryService {
     @Override
     public Set<Itinerary> findByNumberOfParts(Integer numberOfParts) {
         if (numberOfParts < 0) {
-            return EMPTY_SET;
+            return null;
         }
         return new TreeSet<>(itineraryRepository.findItinerariesByNumberOfParts(numberOfParts));
     }
