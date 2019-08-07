@@ -12,6 +12,7 @@ Password: user
 2. bash mvnw package
 3. cd target/
 4. java -jar escalade-1.0.0.jar
+5. http://localhost:8080/
 
 ## System
 #### Java
